@@ -176,3 +176,11 @@ async function add_table_header() {
             table.appendChild(table_body);
         })
 }
+
+get_batter_names().then(function (value) {
+    autocomplete(document.getElementById("batter_name"), value)
+})
+get_pitcher_names().then(function (value) {
+    autocomplete(document.getElementById("pitcher_name"), value)
+})
+add_table_header()

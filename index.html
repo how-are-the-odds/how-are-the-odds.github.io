@@ -23,19 +23,10 @@
 
     <table id="oddsTable" class="prob-table"></table>
 
-    <div id="tableContainer">blah</div>
+    <div id="tableContainer"></div>
 
-    <script src="src.js"></script>
     <script src="autocomplete.js"></script>
-    <script>
-    get_batter_names().then(function (value) {
-        autocomplete(document.getElementById("batter_name"), value)
-    })
-    get_pitcher_names().then(function (value) {
-        autocomplete(document.getElementById("pitcher_name"), value)
-    })
-    add_table_header()
-    </script>
+    <script src="src.js"></script>
 </body>
 
 </html>
