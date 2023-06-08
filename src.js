@@ -19,35 +19,54 @@ function req() {
     xhr.send(data);
 }
 
-// This function made by ChatGPT
-function generateTable(object) {
-    var keys = Object.keys(object);
+async function get_batter_names() {
+    json = fetch('./data/model_params/batter_fit.json')
+        .then((response) => response.json())
+        .then((json) => (Object.keys(json)))
+    return json
+}
+
+async function get_pitcher_names() {
+    json = fetch('./data/model_params/pitcher_fit.json')
+        .then((response) => response.json())
+        .then((json) => (Object.keys(json)))
+    return json
+}
+
+function prettify(prob) {
+    return String(prob * 100.).substring(0, 4) + "%";
+}
+
+function prob_to_color(prob) {
+    const low_prob_color = [244, 232, 197];
+    const high_prob_color = [201, 45, 2];
+    let color_output = [];
+    for (var i = 0; i < 3; i++) {
+        color_output[i] = parseInt(low_prob_color[i] * (1 - prob) + high_prob_color[i] * prob);
+    }
+    const colorString = "#" + color_output[0].toString(16).padStart(2, '0') + color_output[1].toString(16).padStart(2, '0') + color_output[2].toString(16).padStart(2, '0');
+    return colorString;
+}
+
+function generateTableRow(object, event) {
+    let keys = Object.keys(object);
     
-    var table = document.createElement('table');
-    
-    // Create table header
-    var headerRow = document.createElement('tr');
-    keys.forEach(function(key) {
-        var th = document.createElement('th');
-        th.textContent = key;
-        headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
+    let table_body = document.getElementById('probTableBody');
     
     // Create table body
-    var tbody = document.createElement('tbody');
-
-    var row = document.createElement('tr');
+    let row = document.createElement('tr');
+    let td_1 = document.createElement('td');
+    td_1.textContent = event[0] + " \n " + event[1] + " \n " + event[2];
+    td_1.classList.add("prob-td");
+    row.appendChild(td_1);
     keys.forEach(function(key) {
-        var td = document.createElement('td');
-        td.textContent = object[key];
+        let td = document.createElement('td');
+        td.textContent = prettify(object[key]);
+        td.classList.add("prob-td");
+        td.style.backgroundColor = prob_to_color(object[key]);
         row.appendChild(td);
     });
-    tbody.appendChild(row);
-
-    table.appendChild(tbody);
-    
-    return table;
+    table_body.appendChild(row);
 }
 
 // Function for computing the softmax of an object:
@@ -64,13 +83,6 @@ function softmax(obj) {
     }
 
     return obj_exp;
-}
-
-function prettify(probs) {
-    for (const key in probs) {
-        probs[key] = String(probs[key] * 100.).substring(0, 4) + "%";
-    }
-    return probs
 }
 
 async function get_batter_vec(batter_name) {
@@ -126,10 +138,41 @@ async function get_prob(batter, pitcher, count) {
                 sum_vals[split_key.substr(2, split_key.length - 3)] += product_vals[key];
             }
 
-            // return softmax(sum_vals);
-            console.log(sum_vals);
-            table = generateTable(prettify(softmax(sum_vals)))
-            document.getElementById("tableContainer").appendChild(table)
+            table = generateTableRow(softmax(sum_vals), [batter, pitcher, count]);
+        })
+}
 
+const name_converter = new Map([
+    ["doubletriple_hit", "Double or Triple"],
+    ["fielded_out", "Fielded Out"],
+    ["homerun_hit", "Home Run"],
+    ["other", "Other"],
+    ["single_hit", "Single (hit)"],
+    ["single_walk", "Walk"],
+    ["strike_out", "Strike Out"]
+]);
+
+
+async function add_table_header() {
+    get_count_offset()
+        .then(function (count_offset) {
+            let events = Object.keys(count_offset['(0, 0)'])
+                .map((event) => name_converter.get(event));
+            let table = document.getElementById("oddsTable");
+
+            let headerRow = document.createElement('tr');
+            let th_1 = document.createElement('th');
+            th_1.textContent = "Event Name";
+            headerRow.appendChild(th_1);
+
+            events.forEach(function(key) {
+                let th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+            let table_body = document.createElement("tbody");
+            table_body.id = "probTableBody";
+            table.appendChild(table_body);
         })
 }
