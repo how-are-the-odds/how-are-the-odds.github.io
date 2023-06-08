@@ -9,14 +9,12 @@
     Everyone always asks what the odds are, but no one ever ask the odds <em>how</em> they are.
     <br>
 
-    <div id="test">this is a test line</div>
-
     <form autocomplete="off">
         <div class="autocomplete">
             <input type="text" id="batter_name", placeholder="batter full name">
             <input type="text" id="pitcher_name", placeholder="pitcher full name">
-            <input type="text" id="balls", placeholder="balls">
-            <input type="text" id="strikes", placeholder="strikes">
+            <input type="number" id="balls", placeholder="balls" min="0" max="3">
+            <input type="number" id="strikes" name="strikes" placeholder="strikes" min="0" max = "2">
         </div>
     </form>
     <button type="button" onclick="get_input_prob()">Try it</button>
@@ -27,6 +25,7 @@
 
     <script src="autocomplete.js"></script>
     <script src="src.js"></script>
+    <script>get_prob("salvador perez", "sam hentges", "(0, 0)")</script>
 </body>
 
 </html>

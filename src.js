@@ -55,8 +55,10 @@ function generateTableRow(object, event) {
     
     // Create table body
     let row = document.createElement('tr');
+    row.classList.add("prob-tr");
     let td_1 = document.createElement('td');
     td_1.textContent = event[0] + " \n " + event[1] + " \n " + event[2];
+    td_1.style.backgroundColor = "#77BBFF";
     td_1.classList.add("prob-td");
     row.appendChild(td_1);
     keys.forEach(function(key) {
