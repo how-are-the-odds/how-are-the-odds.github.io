@@ -58,7 +58,7 @@ function App() {
       );
       return softmax(probabilities);
     } else {
-      alert("ERROR! Batter Name and Pitcher Name not in data");
+      alert("Batter Name and Pitcher Name not in data");
     }
   };
 
@@ -72,21 +72,21 @@ function App() {
 
   const loadData = (forceReload: boolean) => {
     if (!dataLoaded || forceReload) {
-      fetch("./src/model_params/batter_fit.json")
+      fetch("./model_params/batter_fit.json")
         .then((resp) => resp.json())
         .then((resp) => {
           setBatterData(resp);
           setBatterNames(Object.keys(resp));
         });
 
-      fetch("./src/model_params/pitcher_fit.json")
+      fetch("./model_params/pitcher_fit.json")
         .then((resp) => resp.json())
         .then((resp) => {
           setPitcherData(resp);
           setPitcherNames(Object.keys(resp));
         });
 
-      fetch("./src/model_params/count_fit.json")
+      fetch("./model_params/count_fit.json")
         .then((resp) => resp.json())
         .then((resp: { [key: string]: { [eventName: string]: number } }) => {
           let offsetObject: {
@@ -118,6 +118,10 @@ function App() {
 
   return (
     <>
+      <h2>
+        Nobody ever asks <em>how</em> the odds are.
+      </h2>
+      <br />
       <StateInput
         batterNames={batterNames}
         pitcherNames={pitcherNames}
