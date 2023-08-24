@@ -24,6 +24,47 @@ export const eventOrder: string[] = [
   "other",
 ];
 
+export const getScores = (
+  batterName: string,
+  pitcherName: string,
+  count: number[],
+  batterData: any,
+  pitcherData: any,
+  countOffset: any
+) => {
+  if (batterName in batterData && pitcherName in pitcherData) {
+    const batterScores = batterData[batterName];
+    const pitcherScores = pitcherData[pitcherName];
+    const offset = countOffset[count[0]][count[1]];
+
+    let combinedScores: { [key: string]: number[] } = {};
+    // Multiply together scores and put them into an object that indexes vectors
+    for (const key in batterScores) {
+      const splitKey = key.split("', ");
+      const firstKey = splitKey[0].substring(2);
+      const secondKey = parseInt(splitKey[1]);
+      if (firstKey in combinedScores) {
+        combinedScores[firstKey][secondKey] =
+          batterScores[key] * pitcherScores[key];
+      } else {
+        combinedScores[firstKey] = [0, 0]; // need to make this adaptive...
+        combinedScores[firstKey][secondKey] =
+          batterScores[key] * pitcherScores[key];
+      }
+    }
+    let probabilities: number[] = Array(eventOrder.length);
+    for (const [key, value] of Object.entries(combinedScores)) {
+      probabilities[eventOrder.findIndex((elem) => elem == key)] = value.reduce(
+        (a, b) => a + b
+      );
+    }
+    probabilities = probabilities.map((value, index) => value + offset[index]);
+    return softmax(probabilities);
+  } else {
+    alert("Batter Name and Pitcher Name not in data");
+  }
+};
+
 export const nameConverter = new Map([
   ["doubletriple_hit", "Double or Triple"],
   ["fielded_out", "Fielded Out"],

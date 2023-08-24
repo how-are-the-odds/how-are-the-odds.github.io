@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import StatsTable from "./Components/StatsTable";
-import { eventOrder, softmax } from "./ProbabilityCompute";
+import { eventOrder, getScores } from "./ProbabilityCompute";
 import StateInput from "./Components/StateInput";
+import NavBar from "./Components/NavBar";
 
-function App() {
+function StaticApp() {
   const [probabilityArray, setProbabilityArray] = useState<number[][]>([]);
   const [batterData, setBatterData] = useState<{
     [key: string]: { [key: string]: number };
@@ -23,48 +24,16 @@ function App() {
   const [batterName, setBatterName] = useState("");
   const [count, setCount] = useState([0, 0]);
 
-  const getScores = (
-    batterName: string,
-    pitcherName: string,
-    count: number[]
-  ) => {
-    if (batterName in batterData && pitcherName in pitcherData) {
-      const batterScores = batterData[batterName];
-      const pitcherScores = pitcherData[pitcherName];
-      const offset = countOffset[count[0]][count[1]];
-
-      let combinedScores: { [key: string]: number[] } = {};
-      // Multiply together scores and put them into an object that indexes vectors
-      for (const key in batterScores) {
-        const splitKey = key.split("', ");
-        const firstKey = splitKey[0].substring(2);
-        const secondKey = parseInt(splitKey[1]);
-        if (firstKey in combinedScores) {
-          combinedScores[firstKey][secondKey] =
-            batterScores[key] * pitcherScores[key];
-        } else {
-          combinedScores[firstKey] = [0, 0]; // need to make this adaptive...
-          combinedScores[firstKey][secondKey] =
-            batterScores[key] * pitcherScores[key];
-        }
-      }
-      let probabilities: number[] = Array(eventOrder.length);
-      for (const [key, value] of Object.entries(combinedScores)) {
-        probabilities[eventOrder.findIndex((elem) => elem == key)] =
-          value.reduce((a, b) => a + b);
-      }
-      probabilities = probabilities.map(
-        (value, index) => value + offset[index]
-      );
-      return softmax(probabilities);
-    } else {
-      alert("Batter Name and Pitcher Name not in data");
-    }
-  };
-
   const handleClick = async () => {
     loadData(false);
-    const score = getScores(batterName, pitcherName, count);
+    const score = getScores(
+      batterName,
+      pitcherName,
+      count,
+      batterData,
+      pitcherData,
+      countOffset
+    );
     if (!(score === undefined)) {
       setProbabilityArray((value) => [...value, score]);
     }
@@ -118,14 +87,17 @@ function App() {
 
   return (
     <>
+      <NavBar></NavBar>
       <h2>
         Nobody ever asks <em>how</em> the odds are.
       </h2>
       <br />
       <StateInput
         batterNames={batterNames}
+        pitcherName={pitcherName}
         pitcherNames={pitcherNames}
         setPitcherName={setPitcherName}
+        batterName={batterName}
         setBatterName={setBatterName}
         setCount={setCount}
         count={count}
@@ -146,4 +118,4 @@ function App() {
   );
 }
 
-export default App;
+export default StaticApp;

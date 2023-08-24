@@ -3,7 +3,9 @@ import { Autocomplete, TextField } from "@mui/material";
 interface StateInputProps {
   pitcherNames: string[];
   batterNames: string[];
+  pitcherName: string;
   setPitcherName: (a: string) => void;
+  batterName: string;
   setBatterName: (a: string) => void;
   count: number[];
   setCount: (n: number[]) => void;
@@ -15,7 +17,9 @@ const strikes = [0, 1, 2];
 const StateInput = ({
   pitcherNames,
   batterNames,
+  batterName,
   setBatterName,
+  pitcherName,
   setPitcherName,
   setCount,
   count,
@@ -29,7 +33,8 @@ const StateInput = ({
               <Autocomplete
                 disablePortal
                 id="pitcher-input"
-                options={pitcherNames}
+                options={[...pitcherNames, ""]}
+                value={pitcherName}
                 sx={{ width: 200 }}
                 onInputChange={(_event, value) => setPitcherName(value)}
                 renderInput={(params) => (
@@ -43,7 +48,8 @@ const StateInput = ({
               <Autocomplete
                 disablePortal
                 id="batter-input"
-                options={batterNames}
+                options={[...batterNames, ""]}
+                value={batterName}
                 sx={{ width: 200 }}
                 onInputChange={(_event, value) => setBatterName(value)}
                 renderInput={(params) => (
