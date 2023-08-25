@@ -1,9 +1,9 @@
 const NavBar = () => {
   const pages = [
-    { text: "Home", link: "/index.html" },
-    { text: "Pick a matchup", link: "/static.html" },
-    { text: "Live Game Predictions", link: "/livegames.html" },
-    { text: "Methodology", link: "/methodology.html" },
+    { text: "Home", link: "/" },
+    { text: "Pick a matchup", link: "/static" },
+    { text: "Live Game Predictions", link: "/livegames" },
+    { text: "Methodology", link: "/methodology" },
   ];
   const pageOptions = pages.map((page) => {
     let classes = ["nav-item", "nav-link"];

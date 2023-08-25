@@ -34,7 +34,7 @@ const StatsTable = ({ probabilityArray, header }: StatsTableProps) => {
   const colorMat = computeColor(probabilityArray);
 
   return (
-    <div className="table-responsive table-fixed">
+    <div className="table-fixed">
       <table className="table table-bordered rounded">
         <thead>
           <tr>

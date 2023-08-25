@@ -15,8 +15,12 @@
     "@mui/material": "^5.14.5",
     "bootstrap": "^3.4.1",
     "colormap": "^2.3.2",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "sort-by": "^0.0.2"
   },
   "devDependencies": {
     "@types/colormap": "^2.3.1",
