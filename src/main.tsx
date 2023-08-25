@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import IndexApp from "./IndexApp.tsx";
 import ErrorPage from "./ErrorPage.tsx";
@@ -9,7 +9,7 @@ import MethodologyApp from "./MethodologyApp.tsx";
 import StaticApp from "./StaticApp.tsx";
 import LiveGameApp from "./LiveGameApp.tsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <IndexApp />,
