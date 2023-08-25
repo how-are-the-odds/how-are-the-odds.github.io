@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
   const pages = [
     { text: "Home", link: "/" },
@@ -11,13 +13,13 @@ const NavBar = () => {
       classes = [...classes, "active"];
     }
     return (
-      <a
+      <Link
         className={classes.join(" ")}
-        href={page.link == window.location.pathname ? "#" : page.link}
+        to={page.link == window.location.pathname ? "#" : page.link}
         key={page.text}
       >
         {page.text}
-      </a>
+      </Link>
     );
   });
   return (
