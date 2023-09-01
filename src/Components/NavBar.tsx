@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const pages = [
-    { text: "Home", link: "/" },
+    { text: "Home", link: "/index" },
     { text: "Pick a matchup", link: "/static" },
     { text: "Live Game Predictions", link: "/livegames" },
     { text: "Methodology", link: "/methodology" },

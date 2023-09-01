@@ -11,7 +11,7 @@ import LiveGameApp from "./LiveGameApp.tsx";
 
 const router = createHashRouter([
   {
-    path: "/",
+    path: "/index",
     element: <IndexApp />,
     errorElement: <ErrorPage />,
   },
