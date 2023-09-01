@@ -3,7 +3,7 @@ import NavBar from "./Components/NavBar";
 
 const IndexApp = () => {
   const makeRequest = () => {
-    fetch("http://danielpacker.pythonanywhere.com/api/add_numbers", {
+    fetch("https://danielpacker.pythonanywhere.com/api/add_numbers", {
       method: "POST",
       mode: "cors",
       credentials: "omit",
