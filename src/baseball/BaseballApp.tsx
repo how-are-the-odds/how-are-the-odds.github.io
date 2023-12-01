@@ -4,7 +4,7 @@ import StatsTable from "./Components/StatsTable";
 import { eventOrder, softmax } from "./ProbabilityCompute";
 import StateInput from "./Components/StateInput";
 
-function App() {
+function BaseballApp() {
   const [probabilityArray, setProbabilityArray] = useState<number[][]>([]);
   const [batterData, setBatterData] = useState<{
     [key: string]: { [key: string]: number };
@@ -118,9 +118,6 @@ function App() {
 
   return (
     <>
-      <h2>
-        Nobody ever asks <em>how</em> the odds are.
-      </h2>
       <br />
       <StateInput
         batterNames={batterNames}
@@ -146,4 +143,4 @@ function App() {
   );
 }
 
-export default App;
+export default BaseballApp;
