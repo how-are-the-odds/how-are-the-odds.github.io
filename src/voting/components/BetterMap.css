@@ -1,0 +1,8 @@
+.map-container {
+  width: 100%;
+  min-width: 40rem;
+  padding: 1rem 1rem 1rem 1rem;
+  background-color: gray;
+  border-radius: 2em;
+  /* background: radial-gradient(gray 60%, transparent 100%) */
+}

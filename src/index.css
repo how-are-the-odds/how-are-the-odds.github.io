@@ -37,7 +37,7 @@ body {
   margin: auto;
   display: flex;
   place-items: top;
-  max-width: 500px;
+  /* max-width: 500px; */
   min-height: 100vh;
 }
 

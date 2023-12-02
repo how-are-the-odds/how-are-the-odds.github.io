@@ -4,6 +4,7 @@ import {
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
+import "./BetterMap.css";
 import { scaleLinear } from "d3-scale";
 import { Tooltip } from "react-tooltip";
 
@@ -27,45 +28,49 @@ const MapChart = ({ countyData }: MapChartProps) => {
   return (
     <>
       <Tooltip id="my-tooltip" float={true}></Tooltip>
-      <ComposableMap projection="geoAlbersUsa">
-        <ZoomableGroup center={[0, 0]}>
-          <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const cur = countyData.find((s) => s.county_fips === geo.id);
-                const prob = cur
-                  ? (100 * cur.pivot_odds).toFixed(6) + "%"
-                  : "no election recorded";
-                const color = cur ? colorScale(cur.log_pivot_odds) : "#EEEEEE";
-                return (
-                  <a
-                    data-tooltip-id="my-tooltip"
-                    data-tooltip-html={geo.properties.name + "<br />" + prob}
-                    data-tooltip-place="top"
-                    key={geo.rsmKey}
-                  >
-                    <Geography
-                      className="county"
-                      geography={geo}
-                      style={{
-                        default: {
-                          fill: color,
-                        },
-                        hover: {
-                          fill: gold,
-                        },
-                        pressed: {
-                          fill: light_gold,
-                        },
-                      }}
-                    ></Geography>
-                  </a>
-                );
-              })
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
+      <div className="map-container">
+        <ComposableMap projection="geoAlbersUsa">
+          <ZoomableGroup center={[0, 0]}>
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const cur = countyData.find((s) => s.county_fips === geo.id);
+                  const prob = cur
+                    ? (100 * cur.pivot_odds).toFixed(6) + "%"
+                    : "no election recorded";
+                  const color = cur
+                    ? colorScale(cur.log_pivot_odds)
+                    : "#EEEEEE";
+                  return (
+                    <a
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-html={geo.properties.name + "<br />" + prob}
+                      data-tooltip-place="top"
+                      key={geo.rsmKey}
+                    >
+                      <Geography
+                        className="county"
+                        geography={geo}
+                        style={{
+                          default: {
+                            fill: color,
+                          },
+                          hover: {
+                            fill: gold,
+                          },
+                          pressed: {
+                            fill: light_gold,
+                          },
+                        }}
+                      ></Geography>
+                    </a>
+                  );
+                })
+              }
+            </Geographies>
+          </ZoomableGroup>
+        </ComposableMap>
+      </div>
     </>
   );
 };
