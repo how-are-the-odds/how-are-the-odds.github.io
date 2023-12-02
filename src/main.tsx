@@ -6,6 +6,8 @@ import Root from "./routes/root";
 import { ErrorPage } from "./ErrorPage";
 import BaseBallApp from "./baseball/BaseballApp";
 import VotingApp from "./voting/VotingApp";
+import {loader as votingLoader} from "./voting/VotingApp";
+import MapPage from "./voting/MapPage";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,20 @@ const router = createBrowserRouter([
       },
       {
         path: "politics",
-        element: <VotingApp></VotingApp>
-      }
+        element: <VotingApp></VotingApp>,
+        children: [
+          {
+            path: "partisan",
+            element: <MapPage></MapPage>,
+            loader: () => votingLoader(true),
+          },
+          {
+            path: "nonpartisan",
+            element: <MapPage></MapPage>,
+            loader: () => votingLoader(false),
+          },
+        ],
+      },
     ],
   },
 ]);

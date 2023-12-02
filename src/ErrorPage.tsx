@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useRouteError, Link } from "react-router-dom";
 
 export function ErrorPage() {
   const error = useRouteError();
@@ -20,6 +20,7 @@ export function ErrorPage() {
             <i>{error.data.message}</i>
           </p>
         )}
+        <Link to={``}>Go Back Home</Link>
       </div>
     );
   } else if (error instanceof Error) {

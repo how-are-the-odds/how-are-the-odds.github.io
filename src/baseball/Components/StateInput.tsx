@@ -23,78 +23,70 @@ const StateInput = ({
   return (
     <form>
       <div className="container">
-        <div className="row top-buffer">
-          <div className="col-sm-4">
-            <center>
-              <Autocomplete
-                disablePortal
-                id="pitcher-input"
-                options={pitcherNames}
-                sx={{ width: 200 }}
-                onInputChange={(_event, value) => setPitcherName(value)}
-                renderInput={(params) => (
-                  <TextField {...params} label="Pitcher" />
-                )}
-              />
-            </center>
-          </div>
-          <div className="col-sm-4">
-            <center>
-              <Autocomplete
-                disablePortal
-                id="batter-input"
-                options={batterNames}
-                sx={{ width: 200 }}
-                onInputChange={(_event, value) => setBatterName(value)}
-                renderInput={(params) => (
-                  <TextField {...params} label="Batter" />
-                )}
-              />
-            </center>
-          </div>
+        <div className="top-buffer">
+          <center>
+            <Autocomplete
+              disablePortal
+              className="auto-complete"
+              id="pitcher-input"
+              options={pitcherNames}
+              sx={{ width: 200 }}
+              onInputChange={(_event, value) => setPitcherName(value)}
+              renderInput={(params) => (
+                <TextField {...params} label="Pitcher" />
+              )}
+            />
+          </center>
+          <center>
+            <Autocomplete
+              className="auto-complete"
+              disablePortal
+              id="batter-input"
+              options={batterNames}
+              sx={{ width: 200 }}
+              onInputChange={(_event, value) => setBatterName(value)}
+              renderInput={(params) => <TextField {...params} label="Batter" />}
+            />
+          </center>
         </div>
-        <div className="row top-buffer">
-          <div className="col-sm-4">
-            <TextField
-              id="outlined-select-currency-native"
-              select
-              label="Balls"
-              defaultValue={0}
-              onChange={(event) => {
-                setCount([parseInt(event.target.value), count[1]]);
-              }}
-              SelectProps={{
-                native: true,
-              }}
-            >
-              {balls.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </TextField>
-          </div>
-          <div className="col-sm-4">
-            <TextField
-              id="outlined-select-currency-native"
-              select
-              label="Strikes"
-              defaultValue={0}
-              onChange={(event) => {
-                setCount([count[1], parseInt(event.target.value)]);
-              }}
-              SelectProps={{
-                native: true,
-              }}
-            >
-              {strikes.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </TextField>
-          </div>
-        </div>
+        <span className="text-field">
+          <TextField
+            select
+            label="Balls"
+            defaultValue={0}
+            onChange={(event) => {
+              setCount([parseInt(event.target.value), count[1]]);
+            }}
+            SelectProps={{
+              native: true,
+            }}
+          >
+            {balls.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </TextField>
+          </span>
+          <span className="text-field">
+          <TextField
+            select
+            label="Strikes"
+            defaultValue={0}
+            onChange={(event) => {
+              setCount([count[1], parseInt(event.target.value)]);
+            }}
+            SelectProps={{
+              native: true,
+            }}
+          >
+            {strikes.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </TextField>
+        </span>
       </div>
     </form>
   );

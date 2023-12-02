@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import StatsTable from "./Components/StatsTable";
 import { eventOrder, softmax } from "./ProbabilityCompute";
 import StateInput from "./Components/StateInput";
+import {Button} from "@mui/material";
+import "./App.css"
 
 function BaseballApp() {
   const [probabilityArray, setProbabilityArray] = useState<number[][]>([]);
@@ -127,10 +128,10 @@ function BaseballApp() {
         setCount={setCount}
         count={count}
       ></StateInput>
-      <div style={{ textAlign: "center" }}>
-        <button onClick={handleClick} className="btn btn-primary top-buffer">
+      <div style={{ textAlign: "center" }} className="padded">
+        <Button onClick={handleClick} variant="outlined">
           Find Probability!
-        </button>
+        </Button>
       </div>
       <br />
       <div className="top-buffer">
