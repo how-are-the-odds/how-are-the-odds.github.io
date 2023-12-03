@@ -19,7 +19,7 @@ export async function loader(partisan: boolean): Promise<countyDataSet[]> {
   const csvUrl = partisan ? partisanCsvUrl : nonPartisanCsvUrl;
   const countyData = await dsv(",", csvUrl, (d) => {
     return {
-      county_fips: d.county_fips,
+      county_fips: d.county_fips ? d.county_fips : d.jurisdiction_fips,
       pivot_odds: Number(d.pivot_odds),
       log_pivot_odds: Number(d.log_pivot_odds),
     };
