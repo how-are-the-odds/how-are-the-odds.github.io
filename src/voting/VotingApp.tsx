@@ -1,6 +1,6 @@
 import "react-tooltip/dist/react-tooltip.css";
 import { dsv } from "d3-fetch";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
@@ -29,17 +29,19 @@ export async function loader(partisan: boolean): Promise<countyDataSet[]> {
 
 function VotingApp() {
   return (
-    <>
-      <div style={{ textAlign: "center" }} className="padded">
-        <Button component={Link} to={`./partisan`} variant="outlined">
-          Partisan
-        </Button>
-        <Button component={Link} to={`./nonpartisan`} variant="outlined">
-          Non Partisan
-        </Button>
+    <div className="voting-app">
+      <div style={{ alignItems: "center" }} className="padded">
+        <Stack direction="row" spacing={4} justifyContent="center">
+          <Button component={Link} to={`./partisan`} variant="outlined">
+            Partisan
+          </Button>
+          <Button component={Link} to={`./nonpartisan`} variant="outlined">
+            Non Partisan
+          </Button>
+        </Stack>
       </div>
       <Outlet></Outlet>
-    </>
+    </div>
   );
 }
 

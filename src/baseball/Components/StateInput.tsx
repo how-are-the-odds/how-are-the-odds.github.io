@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Stack, TextField } from "@mui/material";
 
 interface StateInputProps {
   pitcherNames: string[];
@@ -23,37 +23,45 @@ const StateInput = ({
   return (
     <form>
       <div className="container">
-        <div className="top-buffer">
-          <center>
-            <Autocomplete
-              disablePortal
-              className="auto-complete"
-              id="pitcher-input"
-              options={pitcherNames}
-              sx={{ width: 200 }}
-              onInputChange={(_event, value) => setPitcherName(value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Pitcher" />
-              )}
-            />
-          </center>
-          <center>
-            <Autocomplete
-              className="auto-complete"
-              disablePortal
-              id="batter-input"
-              options={batterNames}
-              sx={{ width: 200 }}
-              onInputChange={(_event, value) => setBatterName(value)}
-              renderInput={(params) => <TextField {...params} label="Batter" />}
-            />
-          </center>
-        </div>
-        <span className="text-field">
+        <Stack
+          direction="row"
+          spacing={4}
+          flexWrap="wrap"
+          justifyContent={"center"}
+        >
+          <Autocomplete
+            className="auto-complete"
+            id="pitcher-input"
+            options={pitcherNames}
+            sx={{ width: "30vw", maxWidth: 250, minWidth: 160 }}
+            onInputChange={(_event, value) => setPitcherName(value)}
+            renderInput={(params) => (
+              <TextField {...params} label="Pitcher" variant="filled" />
+            )}
+          />
+          <Autocomplete
+            className="auto-complete"
+            id="batter-input"
+            options={batterNames}
+            sx={{ width: "30vw", maxWidth: 250, minWidth: 160}}
+            onInputChange={(_event, value) => setBatterName(value)}
+            renderInput={(params) => (
+              <TextField {...params} label="Batter" variant="filled" />
+            )}
+          />
+        </Stack>
+        <Stack
+          direction="row"
+          spacing={4}
+          flexWrap="wrap"
+          justifyContent={"center"}
+        >
           <TextField
             select
+            variant="filled"
             label="Balls"
             defaultValue={0}
+            sx={{ width: "10vw", maxWidth: 85, minWidth: 55 }}
             onChange={(event) => {
               setCount([parseInt(event.target.value), count[1]]);
             }}
@@ -67,12 +75,12 @@ const StateInput = ({
               </option>
             ))}
           </TextField>
-          </span>
-          <span className="text-field">
           <TextField
             select
+            variant="filled"
             label="Strikes"
             defaultValue={0}
+            sx={{ width: "10vw", maxWidth: 85, minWidth: 55 }}
             onChange={(event) => {
               setCount([count[1], parseInt(event.target.value)]);
             }}
@@ -86,7 +94,7 @@ const StateInput = ({
               </option>
             ))}
           </TextField>
-        </span>
+        </Stack>
       </div>
     </form>
   );

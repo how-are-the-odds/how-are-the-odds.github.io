@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import StatsTable from "./Components/StatsTable";
 import { eventOrder, softmax } from "./ProbabilityCompute";
 import StateInput from "./Components/StateInput";
-import {Button} from "@mui/material";
-import "./App.css"
+import { Button, Container, Stack } from "@mui/material";
+import "./App.css";
 
 function BaseballApp() {
   const [probabilityArray, setProbabilityArray] = useState<number[][]>([]);
@@ -118,8 +118,7 @@ function BaseballApp() {
   useEffect(() => loadData(false));
 
   return (
-    <>
-      <br />
+    <Stack spacing={8} alignItems="center">
       <StateInput
         batterNames={batterNames}
         pitcherNames={pitcherNames}
@@ -128,19 +127,18 @@ function BaseballApp() {
         setCount={setCount}
         count={count}
       ></StateInput>
-      <div style={{ textAlign: "center" }} className="padded">
-        <Button onClick={handleClick} variant="outlined">
+      <Container>
+        <Button onClick={handleClick} variant="contained">
           Find Probability!
         </Button>
-      </div>
-      <br />
-      <div className="top-buffer">
+      </Container>
+      <Container>
         <StatsTable
           probabilityArray={probabilityArray}
           header={eventOrder}
         ></StatsTable>
-      </div>
-    </>
+      </Container>
+    </Stack>
   );
 }
 

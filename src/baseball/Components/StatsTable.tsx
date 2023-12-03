@@ -1,3 +1,12 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { nameConverter } from "../ProbabilityCompute";
 
 interface StatsTableProps {
@@ -34,20 +43,22 @@ const StatsTable = ({ probabilityArray, header }: StatsTableProps) => {
   const colorMat = computeColor(probabilityArray);
 
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered rounded">
-        <thead>
-          <tr>
+    <TableContainer component={Paper} sx={{maxWidth: 800, margin: "auto"}}>
+      <Table sx={{ maxWidth: 800 }}>
+        <TableHead>
+          <TableRow>
             {header.map((entry) => (
-              <th key={entry}>{nameConverter.get(entry)}</th>
+              <TableCell key={entry} style={{ color: "black" }}>
+                {nameConverter.get(entry)}
+              </TableCell>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {probabilityArray.map((numArray: number[], numRow: number) => (
-            <tr key={numRow}>
+            <TableRow key={numRow}>
               {numArray.map((num: number, numCol: number) => (
-                <td
+                <TableCell
                   key={numCol}
                   style={{
                     backgroundColor: colorMat[numRow][numCol],
@@ -55,13 +66,13 @@ const StatsTable = ({ probabilityArray, header }: StatsTableProps) => {
                   }}
                 >
                   {Math.round(num * 1000) / 10}%
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
