@@ -23,7 +23,13 @@ interface MapChartProps {
 }
 
 const MapChart = ({ countyData }: MapChartProps) => {
-  const colorScale = scaleLinear([-14, 0], ["gray", "blue"]);
+  const max_log_prob = Math.max(...countyData.map((d) => d.log_pivot_odds));
+  console.log(max_log_prob);
+  const min_log_prob = -12;
+  const colorScale = scaleLinear(
+    [min_log_prob, max_log_prob],
+    ["darkblue", gold]
+  );
 
   return (
     <>
@@ -39,7 +45,7 @@ const MapChart = ({ countyData }: MapChartProps) => {
                     ? (100 * cur.pivot_odds).toFixed(6) + "%"
                     : "no election recorded";
                   const color = cur
-                    ? colorScale(cur.log_pivot_odds)
+                    ? colorScale(Math.max(cur.log_pivot_odds, min_log_prob))
                     : "#EEEEEE";
                   return (
                     <a
