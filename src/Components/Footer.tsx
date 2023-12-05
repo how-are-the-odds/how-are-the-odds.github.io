@@ -9,6 +9,10 @@ const Footer = () => (
       <a href="https://www.asc.ohio-state.edu/packer.61/">personal website</a>{" "}
       and my <a href="https://github.com/Daniel-Packer">github</a>.
     </span>
+    <br/>
+    <span>
+      Contact me at {"\{My first name\}.the.\{My last name\}@gmail.com"}
+    </span>
   </Stack>
 );
 
