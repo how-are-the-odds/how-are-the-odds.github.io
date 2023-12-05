@@ -73,21 +73,21 @@ function BaseballApp() {
 
   const loadData = (forceReload: boolean) => {
     if (!dataLoaded || forceReload) {
-      fetch("./model_params/batter_fit.json")
+      fetch("https://raw.githubusercontent.com/how-are-the-odds/how-are-the-odds.github.io/main/public/model_params/batter_fit.json")
         .then((resp) => resp.json())
         .then((resp) => {
           setBatterData(resp);
           setBatterNames(Object.keys(resp));
         });
 
-      fetch("./model_params/pitcher_fit.json")
+      fetch("https://raw.githubusercontent.com/how-are-the-odds/how-are-the-odds.github.io/main/public/model_params/pitcher_fit.json")
         .then((resp) => resp.json())
         .then((resp) => {
           setPitcherData(resp);
           setPitcherNames(Object.keys(resp));
         });
 
-      fetch("./model_params/count_fit.json")
+      fetch("https://raw.githubusercontent.com/how-are-the-odds/how-are-the-odds.github.io/main/public/model_params/count_fit.json")
         .then((resp) => resp.json())
         .then((resp: { [key: string]: { [eventName: string]: number } }) => {
           let offsetObject: {

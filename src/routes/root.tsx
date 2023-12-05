@@ -12,7 +12,6 @@ const Root = () => {
           Nobody ever asks <em>how</em> the odds are.
         </h2>
 
-        {/* <div style={{ alignItems: "center" }}> */}
         <Stack
           direction="row"
           spacing={4}
@@ -25,7 +24,6 @@ const Root = () => {
             Politics
           </Button>
         </Stack>
-        {/* </div> */}
       </div>
       <div>
         <br />

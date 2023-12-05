@@ -4,10 +4,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Root from "./routes/root";
 import { ErrorPage } from "./ErrorPage";
-import BaseBallApp from "./baseball/BaseballApp";
 import VotingApp from "./voting/VotingApp";
-import {loader as votingLoader} from "./voting/VotingApp";
+import { loader as votingLoader } from "./voting/VotingApp";
 import MapPage from "./voting/MapPage";
+import BaseballPage from "./baseball/BaseballPage";
+import BaseballApp from "./baseball/BaseballApp";
+import BaseballDoc from "./baseball/Components/BaseballDoc";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: "baseball",
-        element: <BaseBallApp></BaseBallApp>,
+        element: <BaseballPage></BaseballPage>,
+        children: [
+          {
+            path: "predictor",
+            element: <BaseballApp></BaseballApp>,
+          },
+          {
+            path: "documentation",
+            element: <BaseballDoc></BaseballDoc>
+          }
+        ],
       },
       {
         path: "politics",

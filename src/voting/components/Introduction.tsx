@@ -3,7 +3,7 @@ import "./Introduction.css"
 const Introduction = () => {
   return (
     <center>
-      <h2>How are the odds that your vote matters?</h2>
+      <h2>The odds at the polls?</h2>
       <p>
         Calculated below are the odds that in a county-level election your vote
         will decide the election. Mouse over your county to see the odds that when you vote you'll be the decider of your county government. The partisan map is based on historical

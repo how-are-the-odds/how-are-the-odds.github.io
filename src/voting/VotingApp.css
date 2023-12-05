@@ -1,3 +1,15 @@
 .voting-app {
   color: rgba(50, 50, 50, 88);
 }
+
+.map-container {
+  width: 85%;
+  min-width: 40vw;
+  max-width: min(700px, 95vw);
+}
+
+p {
+  width: 85%;
+  min-width: 40vw;
+  max-width: min(700px, 95vw);
+}
