@@ -14,7 +14,7 @@
 }
 
 #root {
-  margin:auto;
+  margin: auto;
 }
 
 .auto-complete {
@@ -31,7 +31,7 @@ body {
   margin: auto;
   place-items: top;
   align-self: start;
-  min-height: 100vh;
+  min-height: 88vh;
   text-align: center;
 }
 
@@ -39,11 +39,25 @@ body {
   padding: 1em;
 }
 
-
 .banner {
   padding: 2rem;
   background-color: rgb(88, 88, 88);
   place-items: top;
+  min-height: 12vh;
+}
+
+.content {
+  flex-grow: 1;
+  min-height: 80vh;
+}
+
+.footer {
+  color: rgba(88, 88, 88, 80);
+  bottom: 0;
+  /* position: fixed; */
+  width: 100%;
+  /* background-color: rgb(88, 88, 88); */
+  place-items: bottom;
 }
 
 h1 {
