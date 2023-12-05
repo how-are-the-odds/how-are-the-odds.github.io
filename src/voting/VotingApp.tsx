@@ -3,6 +3,8 @@ import { dsv } from "d3-fetch";
 import { Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import Introduction from "./components/Introduction";
+import "./VotingApp.css"
 
 export interface countyDataSet {
   county_fips: string;
@@ -29,19 +31,20 @@ export async function loader(partisan: boolean): Promise<countyDataSet[]> {
 
 function VotingApp() {
   return (
-    <div className="voting-app">
-      <div style={{ alignItems: "center" }} className="padded">
-        <Stack direction="row" spacing={4} justifyContent="center">
-          <Button component={Link} to={`./partisan`} variant="outlined">
-            Partisan
-          </Button>
-          <Button component={Link} to={`./nonpartisan`} variant="outlined">
-            Non Partisan
-          </Button>
-        </Stack>
-      </div>
-      <Outlet></Outlet>
-    </div>
+    <Stack spacing={16} alignContent="center" className="voting-app">
+      <Introduction></Introduction>
+      <center>
+        <Outlet></Outlet>
+      </center>
+      <Stack direction="row" spacing={4} justifyContent="center" paddingBottom={"2em"}>
+        <Button component={Link} to={`./partisan`} variant="outlined">
+          Partisan
+        </Button>
+        <Button component={Link} to={`./nonpartisan`} variant="outlined">
+          Non Partisan
+        </Button>
+      </Stack>
+    </Stack>
   );
 }
 

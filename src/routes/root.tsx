@@ -8,7 +8,7 @@ const Root = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="banner">
-        <h2>
+        <h2 style={{color : "white"}}>
           Nobody ever asks <em>how</em> the odds are.
         </h2>
 
