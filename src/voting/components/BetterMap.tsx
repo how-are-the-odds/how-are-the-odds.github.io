@@ -18,11 +18,12 @@ interface countyDataSet {
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const gold = "#dec057";
-const light_gold = "#b0a037";
+const lightGold = "#b0a037";
+const darkBlue = "#000060";
 
 interface MapChartProps {
   countyData: Array<countyDataSet>;
-  oddsData: Array<odds>
+  oddsData: Array<odds>;
 }
 
 const MapChart = ({ countyData, oddsData }: MapChartProps) => {
@@ -30,7 +31,7 @@ const MapChart = ({ countyData, oddsData }: MapChartProps) => {
   const min_log_prob = -12;
   const colorScale = scaleLinear(
     [min_log_prob, max_log_prob],
-    ["darkblue", gold]
+    [darkBlue, gold]
   );
 
   return (
@@ -52,12 +53,18 @@ const MapChart = ({ countyData, oddsData }: MapChartProps) => {
                     const color = cur
                       ? colorScale(Math.max(cur.log_pivot_odds, min_log_prob))
                       : "#EEEEEE";
-                    const comparisonProb = oddsData.find((o) => o.probability < (cur ? cur.pivot_odds : 0))?.event;
+                    const comparisonProb = oddsData.find(
+                      (o) => o.probability < (cur ? cur.pivot_odds : 0)
+                    )?.event;
                     return (
                       <a
                         data-tooltip-id="my-tooltip"
                         data-tooltip-html={
-                          geo.properties.name + "<br />" + prob + "<br />" + comparisonProb
+                          geo.properties.name +
+                          "<br />" +
+                          prob +
+                          "<br />" +
+                          comparisonProb
                         }
                         data-tooltip-place="top"
                         key={geo.rsmKey}
@@ -73,7 +80,7 @@ const MapChart = ({ countyData, oddsData }: MapChartProps) => {
                               fill: gold,
                             },
                             pressed: {
-                              fill: light_gold,
+                              fill: lightGold,
                             },
                           }}
                         ></Geography>
