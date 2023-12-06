@@ -18,7 +18,6 @@ interface countyDataSet {
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const gold = "#dec057";
-const lightGold = "#b0a037";
 const darkBlue = "#000060";
 
 interface MapChartProps {
@@ -56,6 +55,7 @@ const MapChart = ({ countyData, oddsData }: MapChartProps) => {
                     const comparisonProb = oddsData.find(
                       (o) => o.probability < (cur ? cur.pivot_odds : 0)
                     )?.event;
+                    const hoverColor = scaleLinear([0, 1], [color, "gray"])(0.7);
                     return (
                       <a
                         data-tooltip-id="my-tooltip"
@@ -77,10 +77,7 @@ const MapChart = ({ countyData, oddsData }: MapChartProps) => {
                               fill: color,
                             },
                             hover: {
-                              fill: gold,
-                            },
-                            pressed: {
-                              fill: lightGold,
+                              fill: hoverColor,
                             },
                           }}
                         ></Geography>
