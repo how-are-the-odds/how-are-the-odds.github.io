@@ -5,7 +5,7 @@ const Footer = () => (
     <Divider variant="middle" sx={{ width: "80vw" }} />
     <br />
     <span>
-      Made by Daniel Packer, checkout my{" "}
+      Made by Daniel Packer, check out my{" "}
       <a href="https://www.asc.ohio-state.edu/packer.61/">personal website</a>{" "}
       and my <a href="https://github.com/Daniel-Packer">github</a>.
     </span>
