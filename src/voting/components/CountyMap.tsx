@@ -17,7 +17,7 @@ interface countyDataSet {
 }
 
 const countiesUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
-const statesUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
+// const statesUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 const gold = "#dec057";
 const darkBlue = "#000060";
 

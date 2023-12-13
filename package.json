@@ -15,6 +15,8 @@
     "@mui/material": "^5.14.5",
     "bootstrap": "^3.4.1",
     "colormap": "^2.3.2",
+    "cytoscape": "^3.28.0",
+    "cytoscape-dagre": "^2.5.0",
     "d3": "^7.8.5",
     "d3-fetch": "^3.0.1",
     "d3-scale": "^4.0.2",
@@ -31,6 +33,8 @@
   },
   "devDependencies": {
     "@types/colormap": "^2.3.1",
+    "@types/cytoscape": "^3.19.16",
+    "@types/cytoscape-dagre": "^2.3.3",
     "@types/d3": "^7.4.3",
     "@types/d3-fetch": "^3.0.7",
     "@types/d3-scale": "^4.0.8",

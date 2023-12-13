@@ -9,8 +9,6 @@ interface VisualizeProps {
   value: Value;
 }
 
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
-
 const Visualize = ({ value }: VisualizeProps) => {
   const getChildren = (v: Value): Value[] => {
     const children = Array.from(v._prev);
@@ -19,7 +17,6 @@ const Visualize = ({ value }: VisualizeProps) => {
 
   const uniqueChildren = Array.from(new Set([...getChildren(value), value]));
   const valueData = uniqueChildren.map((value) => value.data);
-  const valueDataMax = Math.max(...valueData);
   const valueDataMin = Math.min(...valueData);
 
   const rescaleQuantity = (valueData: number) =>
@@ -54,7 +51,7 @@ const Visualize = ({ value }: VisualizeProps) => {
         }));
       })
     );
-    const cy = cytoscape({
+    cytoscape({
       container: graphContainer.current,
       elements: [...nodes, ...edges],
       style: [
