@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import BetterMap from "./components/BetterMap";
+import BetterMap from "./components/CountyMap";
 import { countyDataSet } from "./VotingApp";
 
 const MapPage = () => {

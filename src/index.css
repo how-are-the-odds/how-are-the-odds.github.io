@@ -54,9 +54,7 @@ body {
 .footer {
   color: rgba(88, 88, 88, 80);
   bottom: 0;
-  /* position: fixed; */
   width: 100%;
-  /* background-color: rgb(88, 88, 88); */
   place-items: bottom;
 }
 

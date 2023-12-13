@@ -8,25 +8,26 @@ import Footer from "../Components/Footer";
 const Root = () => {
   return (
     <ThemeProvider theme={theme}>
-        <div className="banner">
-          <h2 style={{ color: "white" }}>
-            Nobody ever asks <em>how</em> the odds are.
-          </h2>
+      <div className="banner">
+        <h2 style={{ color: "white" }}>
+          Nobody ever asks <em>how</em> the odds are.
+        </h2>
 
-          <Stack direction="row" spacing={4} justifyContent="center">
-            <Button component={Link} to={`baseball`} variant="contained">
-              Baseball
-            </Button>
-            <Button component={Link} to={`politics`} variant="contained">
-              Politics
-            </Button>
-          </Stack>
-        </div>
+        <Stack direction="row" spacing={4} justifyContent="center">
+          <Button component={Link} to={`baseball`} variant="contained">
+            Baseball
+          </Button>
+          <Button component={Link} to={`politics`} variant="contained">
+            Politics
+          </Button>
+          <Button component={Link} to={`machine-learning`} variant="contained">
+            Machine Learning
+          </Button>
+        </Stack>
+      </div>
       <div className="content">
-        <div>
-          <br />
-          <Outlet></Outlet>
-        </div>
+        <br />
+        <Outlet></Outlet>
       </div>
       <Footer></Footer>
     </ThemeProvider>

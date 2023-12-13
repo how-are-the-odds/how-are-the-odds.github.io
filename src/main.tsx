@@ -10,6 +10,7 @@ import MapPage from "./voting/MapPage";
 import BaseballPage from "./baseball/BaseballPage";
 import BaseballApp from "./baseball/BaseballApp";
 import BaseballDoc from "./baseball/Components/BaseballDoc";
+import MicrogradApp from "./neuralnets/MicrogradApp";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             element: <BaseballDoc></BaseballDoc>
           }
         ],
+      },
+      {
+        path: "machine-learning",
+        element: <MicrogradApp></MicrogradApp>,
       },
       {
         path: "politics",
