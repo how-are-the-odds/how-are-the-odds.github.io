@@ -9,31 +9,40 @@ export class Neuron {
   w: Array<Value>;
   b: Value;
   nonLinearity: string;
+  applyNonLinearity: (v: Value) => Value;
 
   constructor(nInputs: number, nonLinearity = "relu") {
     const rng = randomUniform(-1.0, 1.0);
     this.w = new Array(nInputs).fill(0).map(() => new Value(rng()));
     this.b = new Value(rng());
     this.nonLinearity = nonLinearity;
+    this.applyNonLinearity = (() => {
+      switch (this.nonLinearity) {
+        case "relu":
+          return (out: Value) => out.relu();
+        case "tanh":
+          return (out: Value) => out.tanh();
+        case "mix":
+          if (Math.random() > 0.5) {
+            return (out: Value) => out.tanh();
+          }
+          return (out: Value) => out.relu();
+        case "none":
+          return (out: Value) => out;
+
+        default:
+          console.warn("Given non-linearity unknown, using relu");
+          return (out: Value) => out.relu();
+      }
+    })();
   }
 
   call = (x: Array<Value>) => {
     const out = x
       .map((xi, i) => xi.mul(this.w[i]))
       .reduce((partialSum, xiwi) => partialSum.add(xiwi), this.b);
-
-    switch (this.nonLinearity) {
-      case "relu":
-        return out.relu();
-      case "tanh":
-        return out.tanh();
-      case "none":
-        return out;
-
-      default:
-        console.warn("Given non-linearity unknown, using relu");
-        return out.relu();
-    }
+    
+    return this.applyNonLinearity(out)
   };
 }
 
