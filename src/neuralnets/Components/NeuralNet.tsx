@@ -41,8 +41,8 @@ export class Neuron {
     const out = x
       .map((xi, i) => xi.mul(this.w[i]))
       .reduce((partialSum, xiwi) => partialSum.add(xiwi), this.b);
-    
-    return this.applyNonLinearity(out)
+
+    return this.applyNonLinearity(out);
   };
 }
 
@@ -82,8 +82,10 @@ export class MLP {
     this.outputLayer = new Layer(width, outputSize, "none");
   }
 
+  prep = (x: Array<Value>) => x.map((xi) => new Value(Math.log((xi.data + 0.01) / (1.01 - xi.data))));
+
   call = (x: Array<Value>) => {
-    const firstStep = this.inputLayer.call(x);
+    const firstStep = this.inputLayer.call(this.prep(x));
     const penultimateStep = this.hiddenLayers.reduce(
       (previousStep, currentLayer) => currentLayer.call(previousStep),
       firstStep
@@ -144,7 +146,7 @@ const NeuralNet = ({
   setPoked,
 }: NeuralNetProps) => {
   const nPoints = 5;
-  const xData = new Array(nPoints).fill(0).map((_val, i) => i);
+  const xData = new Array(nPoints).fill(0).map((_val, i) => i / (nPoints - 1));
   const [net, setNet] = useState(
     new MLP(1, layerWidth, nLayers, 1, nonLinearity)
   );
