@@ -12,6 +12,13 @@ interface StateInputProps {
 const balls = [0, 1, 2, 3];
 const strikes = [0, 1, 2];
 
+const capitalize = (name: string) =>
+  name
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .reduce((sentence, word) => sentence + word + " ", "")
+    .trim();
+
 const StateInput = ({
   pitcherNames,
   batterNames,
@@ -33,6 +40,7 @@ const StateInput = ({
             className="auto-complete"
             id="pitcher-input"
             options={pitcherNames}
+            getOptionLabel={capitalize}
             sx={{ width: "30vw", maxWidth: 250, minWidth: 160 }}
             onInputChange={(_event, value) => setPitcherName(value)}
             renderInput={(params) => (
@@ -43,7 +51,8 @@ const StateInput = ({
             className="auto-complete"
             id="batter-input"
             options={batterNames}
-            sx={{ width: "30vw", maxWidth: 250, minWidth: 160}}
+            getOptionLabel={capitalize}
+            sx={{ width: "30vw", maxWidth: 250, minWidth: 160 }}
             onInputChange={(_event, value) => setBatterName(value)}
             renderInput={(params) => (
               <TextField {...params} label="Batter" variant="filled" />

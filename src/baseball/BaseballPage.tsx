@@ -13,9 +13,9 @@ const BaseBallPage = () => {
     <Stack spacing={8} alignItems="center">
       <Introduction></Introduction>
       <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
+        aria-labelledby="baseball-radio-buttons-group-label"
+        defaultValue="predictor"
+        name="baseball-radio-buttons-group"
         row
       >
         <FormControlLabel value="predictor" control={<Radio />} onClick={() => navigate("./predictor")} label="The Predictor" />
