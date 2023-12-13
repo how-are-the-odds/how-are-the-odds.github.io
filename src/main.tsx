@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Root from "./routes/root";
 import { ErrorPage } from "./ErrorPage";
@@ -12,7 +12,7 @@ import BaseballApp from "./baseball/BaseballApp";
 import BaseballDoc from "./baseball/Components/BaseballDoc";
 import MicrogradApp from "./neuralnets/MicrogradApp";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
@@ -54,10 +54,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "*",
-    element: <Navigate to="/"/>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
