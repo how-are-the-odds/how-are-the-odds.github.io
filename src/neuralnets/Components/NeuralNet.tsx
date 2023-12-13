@@ -164,7 +164,8 @@ const NeuralNet = ({
   useEffect(() => {
     if (poked) {
       const params = net.getParams();
-      params[Math.floor(Math.random() * params.length)].data = (Math.random() * 0.001) - 0.0005 ;
+      params[Math.floor(Math.random() * params.length)].data =
+        Math.random() * 0.001 - 0.0005;
       setPoked(false);
     }
   }, [poked]);

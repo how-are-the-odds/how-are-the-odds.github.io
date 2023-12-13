@@ -119,7 +119,7 @@ export class Value {
 }
 
 const Micrograd = () => {
-  const [learningRate, setLearningRate] = useState(0.1);
+  const [learningRate, setLearningRate] = useState(0.05);
   const [nonLinearity, setNonLinearity] = useState("tanh");
   const [layerWidth, setLayerWidth] = useState(4);
   const [numLayers, setNumLayers] = useState(1);
