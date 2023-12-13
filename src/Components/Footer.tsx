@@ -1,4 +1,4 @@
-import { Divider, Stack } from "@mui/material";
+import { Divider, Stack, Tooltip } from "@mui/material";
 import "../index.css";
 const Footer = () => (
   <Stack className="footer" alignItems={"center"} justifyContent={"center"}>
@@ -11,7 +11,7 @@ const Footer = () => (
     </span>
     <br/>
     <span>
-      Contact me at {"\{My first name\}.the.\{My last name\}@gmail.com"}
+      Contact me at <Tooltip title="Fill in with {Daniel} and {Packer} respectively."><span>{"{My first name}.the.{My last name}@gmail.com"}</span></Tooltip>
     </span>
   </Stack>
 );
