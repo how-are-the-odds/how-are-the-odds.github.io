@@ -4,6 +4,7 @@ import LearningRateSlider from "./LearningRateSlider";
 import NonLinearityRadio from "./NonLinearityRadio";
 import NumericalInput from "./NumericalInput";
 import { useState } from "react";
+import PrecompRadio from "./PrecompRadio";
 
 const topologicalSort = (vInit: Value) => {
   const topo: Array<Value> = [];
@@ -125,10 +126,14 @@ const Micrograd = () => {
   const [numLayers, setNumLayers] = useState(1);
   const [updateDelay, setUpdateDelay] = useState(10);
   const [poked, setPoked] = useState(false);
+  const [clearData, setClearData] = useState(false);
+  const [precomp, setPrecomp] = useState("logit")
 
   const poke = () => {
     setPoked(true);
   };
+
+  const clearTrainingData = () => setClearData(true);
 
   return (
     <Stack
@@ -143,6 +148,9 @@ const Micrograd = () => {
         nLayers={numLayers}
         poked={poked}
         setPoked={setPoked}
+        clearData={clearData}
+        setClearData={setClearData}
+        precomp={precomp}
       ></NeuralNet>
       <Stack
         direction="row"
@@ -151,9 +159,14 @@ const Micrograd = () => {
         useFlexGap
         flexWrap="wrap"
       >
-        <Tooltip title="Set a random parameter to near-zero">
-          <Button onClick={poke} variant="contained">Poke</Button>
-        </Tooltip>
+        <Stack spacing={4}>
+          <Button onClick={clearTrainingData} variant="contained">Clear Training Data</Button>
+          <Tooltip title="Set a random parameter to near-zero">
+            <Button onClick={poke} variant="contained">
+              Poke
+            </Button>
+          </Tooltip>
+        </Stack>
         <NumericalInput
           inputValue={layerWidth}
           setInputValue={setLayerWidth}
@@ -169,7 +182,7 @@ const Micrograd = () => {
           setInputValue={setUpdateDelay}
           label={"Update Delay (ms)"}
         />
-
+        <PrecompRadio setPrecomp={setPrecomp} />
         <NonLinearityRadio setNonLinearity={setNonLinearity} />
         <LearningRateSlider
           learningRate={learningRate}

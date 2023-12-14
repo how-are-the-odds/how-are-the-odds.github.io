@@ -7,17 +7,26 @@ interface LinePlotProps {
   addPoint: (coordinates: [number, number]) => void;
 }
 
-const LinePlot = ({ xData, yData, x2Data, y2Data, addPoint }: LinePlotProps) => {
+const LinePlot = ({
+  xData,
+  yData,
+  x2Data,
+  y2Data,
+  addPoint,
+}: LinePlotProps) => {
   const data: [number, number][] = xData.map((x, i) => [x, yData[i]]);
   const data2: [number, number][] = x2Data.map((x, i) => [x, y2Data[i]]);
 
-  const padding = 0;
+  const horizontalPadding: number = 0.05;
+  const verticalPadding: number = 0.05;
   const width: number = 80;
   const height: number = 50;
 
-  const xLim = [Math.min(...xData), Math.max(...xData)];
+  // const xLim = [Math.min(...xData) - horizontalPadding, Math.max(...xData) + horizontalPadding];
+  const xLim = [0 - horizontalPadding, 1 + horizontalPadding];
   const xRange = xLim[1] - xLim[0];
-  const yLim = [Math.min(...yData), Math.max(...yData)];
+  // const yLim = [Math.min(...yData) - verticalPadding, Math.max(...yData) + verticalPadding];
+  const yLim = [-0.3 - verticalPadding, 0.75 + verticalPadding];
   const yRange = yLim[1] - yLim[0];
 
   const [clickLocation, setClickLocation] = useState([0, 0]);
@@ -29,12 +38,17 @@ const LinePlot = ({ xData, yData, x2Data, y2Data, addPoint }: LinePlotProps) => 
     const container = e.currentTarget.getBoundingClientRect();
     const xLocation =
       ((e.clientX - container.left) / (container.right - container.left)) *
-      xRange;
+        xRange +
+      xLim[0];
     const yLocation =
-      (((e.clientY - container.top) / (container.bottom - container.top))) *
-      yRange + yLim[0];
+      ((e.clientY - container.top) / (container.bottom - container.top)) *
+        yRange +
+      yLim[0];
+    if (xLocation > (xLim[1] - horizontalPadding) || xLocation < (xLim[0] + horizontalPadding)) return;
+    if (yLocation > (yLim[1] - verticalPadding) || yLocation < (yLim[0] + verticalPadding)) return;
     setClickLocation([xLocation, yLocation]);
     addPoint([xLocation, yLocation]);
+    console.log(clickLocation)
   };
 
   const transformedData2: Array<[number, number]> = data2.map(([x, y]) => [
@@ -46,16 +60,12 @@ const LinePlot = ({ xData, yData, x2Data, y2Data, addPoint }: LinePlotProps) => 
   return (
     <svg
       onMouseDown={handleClick}
-      viewBox={
-        -padding.toString() +
-        " " +
-        -padding.toString() +
-        " " +
-        (width + 2 * padding).toString() +
-        " " +
-        (height + 2 * padding).toString()
-      }
-      style={{ minWidth: "60vw", maxWidth: "100vw", aspectRatio: (width/height) }}
+      viewBox={"0 0 " + width.toString() + " " + height.toString()}
+      style={{
+        minWidth: "60vw",
+        maxWidth: "100vw",
+        aspectRatio: width / height,
+      }}
     >
       <circle
         cx={transformX(clickLocation[0])}

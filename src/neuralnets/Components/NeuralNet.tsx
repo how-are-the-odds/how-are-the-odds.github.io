@@ -82,10 +82,8 @@ export class MLP {
     this.outputLayer = new Layer(width, outputSize, "none");
   }
 
-  prep = (x: Array<Value>) => x.map((xi) => new Value(Math.log((xi.data + 0.01) / (1.01 - xi.data))));
-
   call = (x: Array<Value>) => {
-    const firstStep = this.inputLayer.call(this.prep(x));
+    const firstStep = this.inputLayer.call(x);
     const penultimateStep = this.hiddenLayers.reduce(
       (previousStep, currentLayer) => currentLayer.call(previousStep),
       firstStep
@@ -126,6 +124,9 @@ const linspace = (
 
 const getData = (values: Value[]) => values.map((v) => v.data);
 
+const logit = (x: Array<Value>) =>
+  x.map((xi) => new Value(Math.log((xi.data + 0.01) / (1.01 - xi.data))));
+
 interface NeuralNetProps {
   learningRate: number;
   delay: number;
@@ -134,6 +135,9 @@ interface NeuralNetProps {
   nLayers: number;
   poked: boolean;
   setPoked: (a: boolean) => void;
+  clearData: boolean;
+  setClearData: (a: boolean) => void;
+  precomp: string;
 }
 
 const NeuralNet = ({
@@ -144,6 +148,9 @@ const NeuralNet = ({
   nLayers,
   poked,
   setPoked,
+  clearData,
+  setClearData,
+  precomp,
 }: NeuralNetProps) => {
   const nPoints = 5;
   const xData = new Array(nPoints).fill(0).map((_val, i) => i / (nPoints - 1));
@@ -159,13 +166,29 @@ const NeuralNet = ({
     x2Points.map((v) => net.call([new Value(v)])[0].data)
   );
 
+  const precompFunction = precomp === "logit" ? logit : (x: Array<Value>) => x;
+
   const addPoint = (coordinates: [number, number]) => {
     if (
-      xPoints.every((xPoint) => Math.abs(xPoint.data - coordinates[0]) > 0.01)
-    )
+      xPoints.every(
+        (xPoint, i) =>
+          Math.pow(xPoint.data - coordinates[0], 2) +
+            Math.pow(yPoints[i].data - coordinates[1], 2) >
+          0.0001
+      )
+    ) {
       setXPoints([...xPoints, new Value(coordinates[0])]);
-    setYPoints([...yPoints, new Value(coordinates[1])]);
+      setYPoints([...yPoints, new Value(coordinates[1])]);
+    }
   };
+
+  useEffect(() => {
+    if (clearData) {
+      setXPoints([]);
+      setYPoints([]);
+    }
+    setClearData(false);
+  }, [clearData]);
 
   useEffect(
     () => setNet(new MLP(1, layerWidth, nLayers, 1, nonLinearity)),
@@ -183,9 +206,11 @@ const NeuralNet = ({
 
   const [recordedLoss, setRecordedLoss] = useState(0);
   useInterval(() => {
-    setFxPoints(x2Points.map((v) => net.call([new Value(v)])[0].data));
+    setFxPoints(
+      x2Points.map((v) => net.call(precompFunction([new Value(v)]))[0].data)
+    );
     const loss = xPoints.reduce((previousValue, xPoint, i) => {
-      const error = net.call([xPoint])[0].sub(yPoints[i]);
+      const error = net.call(precompFunction([xPoint]))[0].sub(yPoints[i]);
       return previousValue.add(error.mul(error));
     }, new Value(0));
     const scaledLoss = loss.mul(new Value(1 / xData.length));

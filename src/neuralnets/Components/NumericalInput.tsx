@@ -12,7 +12,7 @@ const NumericalInput = ({
   label,
 }: NumericalInputProps) => {
   return (
-    <Stack style={{ minWidth: "4rem", maxWidth: "10vw" }} spacing = {4}>
+    <Stack style={{ minWidth: "4rem", maxWidth: "6rem" }} spacing = {4}>
       <span>{label}</span>
       <TextField
         id={label}

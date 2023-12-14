@@ -9,7 +9,7 @@ const LearningRateSlider = ({
   learningRate,
   setLearningRate,
 }: LearningRateSliderProps) => (
-  <div style={{ maxWidth: "20vw", minWidth: "10vw" }}>
+  <div style={{ maxWidth: "10rem", minWidth: "10vw" }}>
     <Typography gutterBottom>
       Learning Rate: {learningRate.toFixed(3)}
     </Typography>
