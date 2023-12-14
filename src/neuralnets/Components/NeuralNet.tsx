@@ -152,6 +152,7 @@ const NeuralNet = ({
   setClearData,
   precomp,
 }: NeuralNetProps) => {
+  const nSamplePoints = 30;
   const nPoints = 5;
   const xData = new Array(nPoints).fill(0).map((_val, i) => i / (nPoints - 1));
   const [net, setNet] = useState(
@@ -161,7 +162,7 @@ const NeuralNet = ({
   const [yPoints, setYPoints] = useState(
     xPoints.map((v) => new Value(Math.sin(v.data * 3) * Math.sin(v.data)))
   );
-  const x2Points = linspace(Math.min(...xData), Math.max(...xData), 50, true);
+  const [x2Points, setX2Points] = useState([...linspace(Math.min(...xData), Math.max(...xData), nSamplePoints, true), ...getData(xPoints)]);
   const [fxPoints, setFxPoints] = useState(
     x2Points.map((v) => net.call([new Value(v)])[0].data)
   );
@@ -179,6 +180,7 @@ const NeuralNet = ({
     ) {
       setXPoints([...xPoints, new Value(coordinates[0])]);
       setYPoints([...yPoints, new Value(coordinates[1])]);
+      setX2Points([...x2Points, coordinates[0]]);
     }
   };
 
@@ -186,6 +188,7 @@ const NeuralNet = ({
     if (clearData) {
       setXPoints([]);
       setYPoints([]);
+      setX2Points([...linspace(Math.min(...xData), Math.max(...xData), nSamplePoints, true)]);
     }
     setClearData(false);
   }, [clearData]);
