@@ -68,6 +68,7 @@ const LinePlot = ({
       }}
     >
       <circle
+        key={"click-circle"}
         cx={transformX(clickLocation[0])}
         cy={transformY(clickLocation[1])}
         r="1"
@@ -75,7 +76,7 @@ const LinePlot = ({
       ></circle>
       {data.map(([x, y], i) => (
         <circle
-          key={i}
+          key={"trainingdata" + i.toString()}
           cx={transformX(x)}
           cy={transformY(y)}
           r="0.3"
@@ -86,7 +87,7 @@ const LinePlot = ({
       {transformedData2.map(([x, y], i, arr) =>
         i != 0 ? (
           <line
-            key={i + 2 * yData.length}
+            key={"line" + i.toString() + "to" + (i - 1).toString()}
             x1={arr[i - 1][0]}
             y1={arr[i - 1][1]}
             x2={x}
@@ -95,7 +96,7 @@ const LinePlot = ({
             strokeWidth={0.2}
           ></line>
         ) : (
-          <></>
+          <div key={"empty spot"}></div>
         )
       )}
     </svg>
