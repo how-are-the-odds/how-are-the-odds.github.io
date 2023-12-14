@@ -14,7 +14,7 @@ const BaseBallPage = () => {
       <Introduction></Introduction>
       <RadioGroup
         aria-labelledby="baseball-radio-buttons-group-label"
-        defaultValue="predictor"
+        defaultValue=""
         name="baseball-radio-buttons-group"
         row
       >
