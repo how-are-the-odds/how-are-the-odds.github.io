@@ -12,12 +12,14 @@ interface StateInputProps {
 const balls = [0, 1, 2, 3];
 const strikes = [0, 1, 2];
 
-const capitalize = (name: string) =>
-  name
+const capitalize = (name: string) => {
+  const capitalizedName = name;
+  return capitalizedName
     .split(" ")
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .reduce((sentence, word) => sentence + word + " ", "")
     .trim();
+};
 
 const StateInput = ({
   pitcherNames,
@@ -42,7 +44,9 @@ const StateInput = ({
             options={pitcherNames}
             getOptionLabel={capitalize}
             sx={{ width: "30vw", maxWidth: 250, minWidth: 160 }}
-            onInputChange={(_event, value) => setPitcherName(value)}
+            onInputChange={(_event, value) =>
+              setPitcherName(value.toLowerCase())
+            }
             renderInput={(params) => (
               <TextField {...params} label="Pitcher" variant="filled" />
             )}
@@ -53,7 +57,9 @@ const StateInput = ({
             options={batterNames}
             getOptionLabel={capitalize}
             sx={{ width: "30vw", maxWidth: 250, minWidth: 160 }}
-            onInputChange={(_event, value) => setBatterName(value)}
+            onInputChange={(_event, value) =>
+              setBatterName(value.toLowerCase())
+            }
             renderInput={(params) => (
               <TextField {...params} label="Batter" variant="filled" />
             )}
