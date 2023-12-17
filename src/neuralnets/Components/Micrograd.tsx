@@ -5,6 +5,7 @@ import NonLinearityRadio from "./NonLinearityRadio";
 import NumericalInput from "./NumericalInput";
 import { useState } from "react";
 import PrecompRadio from "./PrecompRadio";
+import LossFunctionRadio from "./LossFunctionRadio";
 
 const topologicalSort = (vInit: Value) => {
   const topo: Array<Value> = [];
@@ -88,6 +89,17 @@ export class Value {
     return out;
   };
 
+  abs = () => {
+    const out = new Value(Math.abs(this.data), "abs", [this], "abs");
+
+    const _backward = () => {
+      this.grad += this.data > 0 ? out.grad : -out.grad;
+    };
+    out._backward = _backward;
+
+    return out;
+  }
+
   relu = () => {
     const out = new Value(
       this.data >= 0.0 ? this.data : 0.0,
@@ -119,6 +131,38 @@ export class Value {
   getGrad = () => {};
 }
 
+export const linspace = (
+  start: number,
+  stop: number,
+  num: number = 50,
+  endpoint = true
+) => {
+  const div = endpoint ? num - 1 : num;
+  const step = (stop - start) / div;
+  return Array.from({ length: num }, (_, i) => start + step * i);
+};
+
+export const getData = (values: Value[]) => values.map((v) => v.data);
+
+export const logit = (x: Array<Value>) =>
+  x.map((xi) => new Value(Math.log((xi.data + 0.01) / (1.01 - xi.data))));
+
+export const meanSquareLoss = (x: Array<Value>, y: Array<Value>) => {
+  const sumSquareLoss = x.reduce((previousValue, xi, i) => {
+    const error = xi.sub(y[i]);
+    return previousValue.add(error.mul(error));
+  }, new Value(0));
+  return sumSquareLoss.mul(new Value(1 / x.length));
+}
+
+export const meanAbsoluteLoss = (x: Array<Value>, y: Array<Value>) => {
+  const sumAbsoluteLoss = x.reduce((previousValue, xi, i) => {
+    const error = xi.sub(y[i]);
+    return previousValue.add(error.abs());
+  }, new Value(0));
+  return sumAbsoluteLoss.mul(new Value(1 / x.length));
+}
+
 const Micrograd = () => {
   const [learningRate, setLearningRate] = useState(0.05);
   const [nonLinearity, setNonLinearity] = useState("tanh");
@@ -127,7 +171,18 @@ const Micrograd = () => {
   const [updateDelay, setUpdateDelay] = useState(10);
   const [poked, setPoked] = useState(false);
   const [clearData, setClearData] = useState(false);
-  const [precomp, setPrecomp] = useState("logit")
+  const [precomp, setPrecomp] = useState("logit");
+  const [lossFunction, setLossFunction] = useState("meanSquareLoss");
+
+  const precompFunctionDict: { [key: string]: (x: Value[]) => Value[] } = {
+    logit: logit,
+    none: (x: Value[]) => x,
+  };
+  const lossFunctionDict: { [key: string]: (x: Value[], y: Value[]) => Value } =
+    {
+      mse: meanSquareLoss,
+      mae: meanAbsoluteLoss,
+    };
 
   const poke = () => {
     setPoked(true);
@@ -146,11 +201,12 @@ const Micrograd = () => {
         nonLinearity={nonLinearity}
         layerWidth={layerWidth}
         nLayers={numLayers}
+        lossFunction={lossFunctionDict[lossFunction]}
         poked={poked}
         setPoked={setPoked}
         clearData={clearData}
         setClearData={setClearData}
-        precomp={precomp}
+        precomp={precompFunctionDict[precomp]}
       ></NeuralNet>
       <Stack
         direction="row"
@@ -183,6 +239,7 @@ const Micrograd = () => {
           label={"Update Delay (ms)"}
         />
         <PrecompRadio setPrecomp={setPrecomp} />
+        <LossFunctionRadio setLossFunction={setLossFunction} />
         <NonLinearityRadio setNonLinearity={setNonLinearity} />
         <LearningRateSlider
           learningRate={learningRate}

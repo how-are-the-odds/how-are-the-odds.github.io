@@ -19,7 +19,7 @@ const LearningRateSlider = ({
       valueLabelFormat={(x) => Math.exp(x).toFixed(2)}
       step={0.01}
       size="medium"
-      min={-5}
+      min={-8}
       max={0.0}
       onChange={(e) => {
         const eTarget = e.target! as unknown as { value: number };

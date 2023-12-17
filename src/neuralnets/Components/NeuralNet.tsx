@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Value } from "./Micrograd";
+import { Value, getData, linspace } from "./Micrograd";
 import { useInterval } from "usehooks-ts";
 import LinePlot from "./LinePlot";
 import { randomUniform } from "d3";
@@ -111,33 +111,18 @@ export class MLP {
   };
 }
 
-const linspace = (
-  start: number,
-  stop: number,
-  num: number = 50,
-  endpoint = true
-) => {
-  const div = endpoint ? num - 1 : num;
-  const step = (stop - start) / div;
-  return Array.from({ length: num }, (_, i) => start + step * i);
-};
-
-const getData = (values: Value[]) => values.map((v) => v.data);
-
-const logit = (x: Array<Value>) =>
-  x.map((xi) => new Value(Math.log((xi.data + 0.01) / (1.01 - xi.data))));
-
 interface NeuralNetProps {
   learningRate: number;
   delay: number;
   nonLinearity: string;
   layerWidth: number;
   nLayers: number;
+  lossFunction: (x: Array<Value>, y: Array<Value>) => Value;
   poked: boolean;
   setPoked: (a: boolean) => void;
   clearData: boolean;
   setClearData: (a: boolean) => void;
-  precomp: string;
+  precomp: (x: Value[]) => Value[];
 }
 
 const NeuralNet = ({
@@ -146,6 +131,7 @@ const NeuralNet = ({
   nonLinearity,
   layerWidth,
   nLayers,
+  lossFunction,
   poked,
   setPoked,
   clearData,
@@ -166,8 +152,6 @@ const NeuralNet = ({
   const [fxPoints, setFxPoints] = useState(
     x2Points.map((v) => net.call([new Value(v)])[0].data)
   );
-
-  const precompFunction = precomp === "logit" ? logit : (x: Array<Value>) => x;
 
   const addPoint = (coordinates: [number, number]) => {
     if (
@@ -210,14 +194,11 @@ const NeuralNet = ({
   const [recordedLoss, setRecordedLoss] = useState(0);
   useInterval(() => {
     setFxPoints(
-      x2Points.map((v) => net.call(precompFunction([new Value(v)]))[0].data)
+      x2Points.map((v) => net.call(precomp([new Value(v)]))[0].data)
     );
-    const loss = xPoints.reduce((previousValue, xPoint, i) => {
-      const error = net.call(precompFunction([xPoint]))[0].sub(yPoints[i]);
-      return previousValue.add(error.mul(error));
-    }, new Value(0));
-    const scaledLoss = loss.mul(new Value(1 / xData.length));
-    scaledLoss.backward();
+    const xPredictions = xPoints.map((xPoint) => net.call(precomp([xPoint]))[0]);
+    const loss = lossFunction(xPredictions, yPoints);
+    loss.backward();
     net.updateParams(learningRate);
     setRecordedLoss(loss.data);
   }, delay);
