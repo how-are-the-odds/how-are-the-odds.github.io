@@ -22,6 +22,8 @@ export class Neuron {
           return (out: Value) => out.relu();
         case "tanh":
           return (out: Value) => out.tanh();
+        case "leakyRelu":
+          return (out: Value) => out.leakyRelu();
         case "mix":
           if (Math.random() > 0.5) {
             return (out: Value) => out.tanh();

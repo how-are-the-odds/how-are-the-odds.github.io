@@ -128,6 +128,22 @@ export class Value {
     return out;
   };
 
+  leakyRelu = () => {
+    const out = new Value(
+      this.data >= 0.0 ? this.data : 0.01 * this.data,
+      "leakyRelu",
+      [this],
+      "leakyRelu"
+    );
+
+    const _backward = () => {
+      this.grad += this.data >= 0 ? out.grad : 0.01 * out.grad;
+    };
+    out._backward = _backward;
+
+    return out;
+  }
+
   getGrad = () => {};
 }
 
@@ -172,7 +188,7 @@ const Micrograd = () => {
   const [poked, setPoked] = useState(false);
   const [clearData, setClearData] = useState(false);
   const [precomp, setPrecomp] = useState("logit");
-  const [lossFunction, setLossFunction] = useState("meanSquareLoss");
+  const [lossFunction, setLossFunction] = useState("mse");
 
   const precompFunctionDict: { [key: string]: (x: Value[]) => Value[] } = {
     logit: logit,

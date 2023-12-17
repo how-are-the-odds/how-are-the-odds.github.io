@@ -22,6 +22,7 @@ const NonLinearityRadio = ({ setNonLinearity }: NonLinearityRadioProps) => (
     >
       <FormControlLabel value="tanh" control={<Radio />} label="tanh" />
       <FormControlLabel value="relu" control={<Radio />} label="ReLU" />
+      <FormControlLabel value="leakyRelu" control={<Radio />} label="Leaky Relu" />
       <Tooltip title="50% ReLU's, 50% tanh's">
         <FormControlLabel value="mix" control={<Radio />} label="Mixture" />
       </Tooltip>
