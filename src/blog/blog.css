@@ -1,0 +1,21 @@
+.blog {
+  width: 100%;
+}
+
+.blog > * > p {
+  margin: initial;
+}
+
+.blog > * {
+  text-align: left;
+  margin: auto;
+
+  width: 85%;
+  min-width: 40vw;
+  max-width: min(700px, 95vw);
+}
+
+.selector {
+  all: initial;
+  float: right;
+}

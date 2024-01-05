@@ -23,6 +23,9 @@ const Root = () => {
           <Button component={Link} to={`machine-learning`} variant="contained">
             Machine Learning
           </Button>
+          <Button component={Link} to={`blog`} variant="contained">
+            Blog
+          </Button>
         </Stack>
       </div>
       <div className="content">

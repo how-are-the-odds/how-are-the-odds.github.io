@@ -11,6 +11,7 @@ import BaseballPage from "./baseball/BaseballPage";
 import BaseballApp from "./baseball/BaseballApp";
 import BaseballDoc from "./baseball/Components/BaseballDoc";
 import MicrogradApp from "./neuralnets/MicrogradApp";
+import BlogApp from "./blog/BlogApp";
 
 const router = createHashRouter([
   {
@@ -52,6 +53,10 @@ const router = createHashRouter([
           },
         ],
       },
+      {
+        path: "blog",
+        element: <BlogApp></BlogApp>
+      }
     ],
   },
 ]);
