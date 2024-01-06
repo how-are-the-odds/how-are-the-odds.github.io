@@ -1,3 +1,8 @@
+import randomPoints from "./attention_images/random_points_on_circle.gif";
+import symmetricPoints from "./attention_images/symmetric_points_on_circle.gif";
+import almostSymmetricPoints from "./attention_images/almost_symmetric_points_on_circle.gif";
+import pointsOnSphere from "./attention_images/points_on_sphere.gif";
+
 ## A Mathematical Perspective on Transformers
 
 I've been reading the paper
@@ -7,3 +12,64 @@ would not typically read a paper like this (it involves a lot of PDEs and the
 like, whose pathology I tend to avoid), but I saw it linked in multiple
 contexts, so it seems like I have little choice in the long run about whether
 I'm going to read it.
+
+The key approach of the paper is to focus on the residual model nature of most
+implementations of the transformer architecture. Importantly, by treating each
+self-attention step as an "update" to the original embeddings via a
+skip-connection, one can view each step as updating a PDE according to a Cauchy
+rule.
+
+The paper simplifies some of the dynamics of a "real" transformer by omitting
+the feed-forward neural network that is typically used after each attention
+head. Otherwise, it studies the dynamics of this PDE.
+
+### Clustering
+
+The big result of the paper is that attention likes to cluster in the long term.
+As long as the keys, queries, and values are all the identity matrix (a big
+ask!), the dynamics will tend to converge to a single point.
+
+So far, what I've read only proves this if all of the initial points lie in one
+hemisphere, but some very initial tests suggest that this is not necessary.
+Below, I plot out two examples with random points that are not all in one
+hemisphere converging to a single point. The first plot is with points on the
+circle, and the second is with points on the sphere. Since it's just a 2-d plot,
+we only see a projection of it, though.
+
+<img
+  src={randomPoints}
+  className="small"
+  alt="Random points converging to one point on a circle"
+/>
+
+<img
+  src={pointsOnSphere}
+  className="small"
+  alt="Random points converging to one point on a sphere"
+/>
+
+I suspect that this is due to an issue in the highly symmetric case. I can think
+of a variety of ways to arrange points where the attention mechanism would have
+to make a symmetry-breaking choice about which direction to "flow" in. Here's an
+example of that:
+
+<img
+  src={symmetricPoints}
+  className="small"
+  alt="Perfectly balanced points avoiding convergence"
+/>
+
+However, even in this case, we can perturb the points slightly and then still
+get convergence:
+
+<img
+  src={almostSymmetricPoints}
+  className="small"
+  alt="Perturbed balanced points converging."
+/>
+
+Worth noting is that there _is_ an intermediate step, when multiple clusters
+form. They take note of this stage in their paper, seemingly to give some
+evidence of how transformers work, but I'm currently skeptical of this claim. It
+doesn't seem to me like this intermediate stage lasts that long, unless you tune
+carefully.

@@ -33,7 +33,7 @@ const PageSelector = ({ setActivePath }: PageSelectorProps) => {
           onChange={handleChange}
         >
           {pages.map((page) => {
-            return <option value={page.name}>{page.title}</option>;
+            return <option key={page.name} value={page.name}>{page.title}</option>;
           })}
         </NativeSelect>
       </FormControl>

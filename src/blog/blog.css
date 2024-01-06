@@ -19,3 +19,8 @@
   all: initial;
   float: right;
 }
+
+img.small {
+  max-width: 40%;
+  min-width: 50px;
+}
