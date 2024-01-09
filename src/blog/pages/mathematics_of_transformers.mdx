@@ -2,26 +2,34 @@ import randomPoints from "./attention_images/random_points_on_circle.gif";
 import symmetricPoints from "./attention_images/symmetric_points_on_circle.gif";
 import almostSymmetricPoints from "./attention_images/almost_symmetric_points_on_circle.gif";
 import pointsOnSphere from "./attention_images/points_on_sphere.gif";
+import repulsiveCircle from "./attention_images/repulsive_circle.gif";
+import repulsiveSphere from "./attention_images/repulsive_sphere.gif";
+import cycleValues from "./attention_images/cycle_values.gif";
 
 ## A Mathematical Perspective on Transformers
 
 I've been reading the paper
 [A Mathematical Perspective on Transformers](https://arxiv.org/pdf/2312.10794.pdf "A Mathematical Perspective on Transformers")
-for my advisor's reading group, and I thought I'd talk about my thoughts here. I
-would not typically read a paper like this (it involves a lot of PDEs and the
-like, whose pathology I tend to avoid), but I saw it linked in multiple
-contexts, so it seems like I have little choice in the long run about whether
-I'm going to read it.
+for my advisor's reading group, and so I'll talk through some of my thoughts
+here.
 
-The key approach of the paper is to focus on the residual model nature of most
-implementations of the transformer architecture. Importantly, by treating each
-self-attention step as an "update" to the original embeddings via a
-skip-connection, one can view each step as updating a PDE according to a Cauchy
-rule.
+### Introduction
+
+I would not typically read a paper like this (it involves a lot of PDEs and the
+like, whose pathology I tend to avoid), but I saw it linked in multiple
+contexts, so it seems like I have little choice in the long run about whether or
+not I'm going to read it.
+
+The key approach of the paper is to focus on the residual approach of most
+transformer architecture implementations. By treating each self-attention step
+as an "update" to the original embeddings via a skip-connection, one can view
+each step as updating a PDE according to a Cauchy rule.
 
 The paper simplifies some of the dynamics of a "real" transformer by omitting
 the feed-forward neural network that is typically used after each attention
-head. Otherwise, it studies the dynamics of this PDE.
+head. Furthermore, it skips out on the multi-head structure and other tricks
+typically used in an actual transformer architecture. But anyway, the big idea
+is to study the dynamics of this PDE.
 
 ### Clustering
 
@@ -68,8 +76,58 @@ get convergence:
   alt="Perturbed balanced points converging."
 />
 
-Worth noting is that there _is_ an intermediate step, when multiple clusters
-form. They take note of this stage in their paper, seemingly to give some
-evidence of how transformers work, but I'm currently skeptical of this claim. It
-doesn't seem to me like this intermediate stage lasts that long, unless you tune
-carefully.
+In this case, there _is_ an intermediate stage, when multiple clusters form
+right before the animation cuts off (in the upper left and lower right). These
+clusters are still being pushed toward each other, but this is occuring after
+their constituents have "locally" clustered together. They take note of this
+stage in their paper, seemingly to give some evidence of how transformers work,
+but I'm currently skeptical of this claim. It doesn't seem to me like this
+intermediate stage lasts that long, unless you tune carefully. And furthermore,
+the clustering behavior is particular to a unique choice of values.
+
+From these pictures, it does seem like you do not _need_ the hemispheric
+condition, but I'm not clear on what a proof would like without it. It is the
+case that the sum of all inner products is monotone increasing in all the tests
+I ran, so perhaps one can try to prove that. In the case where you do have a
+hemisphere, the proof is fairly straightforward.
+
+### Limitations
+
+It's worth noting that this model is limited in some important ways. The most
+obvious limitation they explicitly note: each application of the attention
+mechanism should be followed by a linear layer, not simply a rescaling to stay
+on the sphere. This nonlinearity would significantly complicate the dynamics
+(which is why they omit it).
+
+But that's not the only limitation. In the real world, each time step gets its
+own set of parameters, and variations in these parameters significantly effect
+the results of the simulations. For instance if the value matrix is not the
+identity, but rather the inverse of the identity, we get repulsive behavior:
+
+<img
+  src={repulsiveCircle}
+  className="small"
+  alt="Points on the circle repelling each other."
+/>
+
+<img
+  src={repulsiveSphere}
+  className="small"
+  alt="Points on the sphere repelling each other."
+/>
+
+I was curious how dependent their results were on the particular values of the
+parameter matrix V. It turns out that varying smoothly between +Id and -Id has
+the effect you would expect: we see the points grouping up when the matrix is
+near +Id, and ungrouping when it is near -Id. The particular matrix at any given
+time step is the rotation matrix with angle plotted in gray.
+
+<img
+  src={cycleValues}
+  className="small"
+  alt="Points on the circle rotating, grouping, and ungrouping."
+/>
+
+I suspect that the eigenvalues determine almost all of the clustering dynamics
+(at least when the queries and keys are identity). Perhaps its even just the
+singular values...

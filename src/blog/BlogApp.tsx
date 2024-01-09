@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import PageSelector from "./PageSelector";
 import "./blog.css";
 import { useState } from "react";
@@ -18,6 +19,8 @@ const BlogApp = () => {
       <div className="selector">
         <PageSelector setActivePath={setPathToContent}></PageSelector>
       </div>
+
+      <Outlet/>
 
       {displayPage}
     </div>

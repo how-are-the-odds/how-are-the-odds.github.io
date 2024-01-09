@@ -7,7 +7,9 @@
 }
 
 .blog > * {
-  text-align: left;
+  /* text-align: left; */
+  text-align: justify;
+  text-justify: inter-word;
   margin: auto;
 
   width: 85%;
@@ -21,6 +23,6 @@
 }
 
 img.small {
-  max-width: 40%;
+  max-width: min(40%, min(700px, 95vw) / 2 - 20px);
   min-width: 50px;
 }
