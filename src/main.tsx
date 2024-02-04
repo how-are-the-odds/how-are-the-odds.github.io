@@ -12,6 +12,7 @@ import BaseballApp from "./baseball/BaseballApp";
 import BaseballDoc from "./baseball/Components/BaseballDoc";
 import MicrogradApp from "./neuralnets/MicrogradApp";
 import BlogApp from "./blog/BlogApp";
+import BlogEntry from "./blog/BlogEntry";
 
 const router = createHashRouter([
   {
@@ -29,8 +30,8 @@ const router = createHashRouter([
           },
           {
             path: "documentation",
-            element: <BaseballDoc></BaseballDoc>
-          }
+            element: <BaseballDoc></BaseballDoc>,
+          },
         ],
       },
       {
@@ -55,8 +56,12 @@ const router = createHashRouter([
       },
       {
         path: "blog",
-        element: <BlogApp></BlogApp>
-      }
+        element: <BlogApp></BlogApp>,
+      },
+      {
+        path: "blog/:entry",
+        element: <BlogEntry></BlogEntry>,
+      },
     ],
   },
 ]);

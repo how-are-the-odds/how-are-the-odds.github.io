@@ -14,16 +14,36 @@ const Root = () => {
         </h2>
 
         <Stack direction="row" spacing={4} justifyContent="center">
-          <Button component={Link} to={`baseball`} variant="contained">
+          <Button
+            className="nav-button"
+            component={Link}
+            to={`baseball`}
+            variant="contained"
+          >
             Baseball
           </Button>
-          <Button component={Link} to={`politics`} variant="contained">
+          <Button
+            className="nav-button"
+            component={Link}
+            to={`politics`}
+            variant="contained"
+          >
             Politics
           </Button>
-          <Button component={Link} to={`machine-learning`} variant="contained">
+          <Button
+            className="nav-button"
+            component={Link}
+            to={`machine-learning`}
+            variant="contained"
+          >
             Machine Learning
           </Button>
-          <Button component={Link} to={`blog`} variant="contained">
+          <Button
+            className="nav-button"
+            component={Link}
+            to={`blog`}
+            variant="contained"
+          >
             Blog
           </Button>
         </Stack>

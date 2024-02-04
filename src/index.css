@@ -72,3 +72,26 @@ h1 {
 table {
   table-layout: fixed;
 }
+
+a:link:not(.MuiButton-root) {
+  color: #7a7aa7;
+  text-decoration: none;
+}
+
+a:visited:not(.MuiButton-root) {
+  color: #867aa7;
+  text-decoration: none;
+}
+
+blockquote.preview {
+  font-family: Open Sans;
+  font-style: italic;
+  color: #555555;
+  padding: 0.5em 30px 0.5em 10px;
+  border-left: 8px solid #9f9f9f;
+  background: #ededed;
+}
+
+blockquote.preview::after {
+  content: "";
+}

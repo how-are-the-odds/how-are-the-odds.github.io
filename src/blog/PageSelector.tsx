@@ -1,22 +1,11 @@
-import {
-  FormControl,
-  InputLabel,
-  NativeSelect,
-} from "@mui/material";
+import { FormControl, InputLabel, NativeSelect } from "@mui/material";
 
-interface PageSelectorProps {
-  setActivePath: (path: string) => void;
-}
-
-const PageSelector = ({ setActivePath }: PageSelectorProps) => {
+const PageSelector = () => {
   const pages = [
     { name: "intro", title: "Introduction" },
     { name: "mathematics_of_transformers", title: "The Math of Transformers" },
+    { name: "example_page_1", title: "Example Page" },
   ];
-
-  const handleChange = (e: { target: { value: string; }; }) => {
-    setActivePath(e.target.value as string);
-  };
 
   return (
     <>
@@ -30,10 +19,13 @@ const PageSelector = ({ setActivePath }: PageSelectorProps) => {
             name: "age",
             id: "uncontrolled-native",
           }}
-          onChange={handleChange}
         >
           {pages.map((page) => {
-            return <option key={page.name} value={page.name}>{page.title}</option>;
+            return (
+              <option key={page.name} value={page.name}>
+                {page.title}
+              </option>
+            );
           })}
         </NativeSelect>
       </FormControl>

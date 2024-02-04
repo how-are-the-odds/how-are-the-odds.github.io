@@ -1,29 +1,43 @@
-import { Outlet } from "react-router-dom";
-import PageSelector from "./PageSelector";
+import { useEffect, useState } from "react";
 import "./blog.css";
-import { useState } from "react";
+import { Stack } from "@mui/material";
+import { Article } from "./Article";
+import EntryPreview from "./EntryPreview";
 
 const BlogApp = () => {
-  const [pathToContent, setPathToContent] = useState("intro");
+  const articleNames = ["mathematics_of_transformers", "intro"];
 
-  const ContentPromise = import(`./pages/${pathToContent}.mdx`);
+  const [articles, setArticles] = useState<Article[]>([]);
 
-  const [displayPage, setDisplayPage] = useState(<></>);
+  async function loadArticles() {
+    Promise.all(
+      articleNames.map(async (name) => {
+        const article = await import(`./pages/${name}.mdx`);
+        return new Article(
+          article.title,
+          article.default({}),
+          article.date,
+          name,
+          article.preview
+        );
+      })
+    ).then((articles) => {
+      articles.sort((a, b) => b.date.getTime() - a.date.getTime());
+      setArticles(articles);
+    });
+  }
 
-  ContentPromise.then((content) => {
-    setDisplayPage(<>{content.default({})}</>);
-  });
+  useEffect(() => {
+    loadArticles();
+  }, []);
 
   return (
-    <div className="blog">
-      <div className="selector">
-        <PageSelector setActivePath={setPathToContent}></PageSelector>
-      </div>
-
-      <Outlet/>
-
-      {displayPage}
-    </div>
+    <Stack className="blog">
+      <h2>Recent</h2>
+      {articles.map((article) => (
+        <EntryPreview key={article.title} article={article} />
+      ))}
+    </Stack>
   );
 };
 

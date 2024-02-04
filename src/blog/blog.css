@@ -18,8 +18,7 @@
 }
 
 .selector {
-  all: initial;
-  float: right;
+  text-align: center;
 }
 
 img.small {
