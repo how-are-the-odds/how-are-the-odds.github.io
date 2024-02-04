@@ -15,7 +15,8 @@ const BlogEntry = () => {
           content.title,
           content.default({}),
           content.date,
-          params.entry ?? ""
+          params.entry ?? "",
+          content.preview
         )
       );
       document.title = content.title;
