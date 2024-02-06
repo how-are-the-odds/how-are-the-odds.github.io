@@ -1,0 +1,177 @@
+import nonNormalizedExposureMatrix from "./ny_segregation_images/unnormalized_exposure_matrices.png";
+import normalizedExposureMatrix from "./ny_segregation_images/normalized_exposure_matrices.png";
+import nonWhiteMap from "./ny_segregation_images/non_white_map.png";
+import pcaPlot from "./ny_segregation_images/pca_rep_matrices.png";
+export const title = "Segregation in NY Schools";
+export const date = new Date("2024-02-04");
+export const preview =
+  "A data-driven study of segregation in New York schools.";
+
+I have heard tell that school segregation is particularly bad in New York
+schools, and a quick search seems to confirm that information. For instance,
+[this report](https://www.civilrightsproject.ucla.edu/research/k-12-education/integration-and-diversity/nyc-school-segregation-report-card-still-last-action-needed-now/NYC_6-09-final-for-post.pdf "UCLA report on NY Segregation")
+from the
+[UCLA Civil Rights Project](https://www.civilrightsproject.ucla.edu/ "UCLA Civil Rights Project Website")
+argues that New York is the worst state in the nation when it comes to
+segregation of Black students the second worse when it comes to Latino students.
+I am going to look at the data [here](https://data.nysed.gov/downloads.php), to
+see if,
+
+1. I can reproduce their conclusions,
+2. Their conclusions need updating in the time since 2018 (the last available
+   data for that study),
+3. I can make any informative graphics that are not already present in their
+   (very thorough) study.
+
+### The data
+
+There's a pretty rich supply of data on the website, to get started, I'm going
+to look at the enrollment database for 2021-2022 (so only one year out of date),
+since there is more rich accompanying data for that year (like graduation rates,
+which I suspect that have yet to collect for 2023).
+
+The two files in the resulting zip are `.accdb` and `.mdb`, which I hope/suspect
+have the same content, since I don't want to do too much work reading them.
+Since they are both Microsoft Access files, and I'm on a Linux machine, I am
+going to need to do some work getting them read. After some looking around at
+options (probably took ~30 minutes total), I settled on using
+[mdbtools](https://github.com/mdbtools/mdbtools) to read out the info.
+
+Instead of messing around with `mdbtools`'s lightweight version of `SQL`, I
+decided to just export each of the tables to a `.csv` that I can read in with
+`pandas` to save me from having to deal with too many languages in my pipeline.
+If I end up needing to process the data for many different years, I can do the
+exporting with a Bash script.
+
+### First steps
+
+To start, I want to get a sense of working with the data. There is a formula for
+the amount of diversity reflected in a school's makeup in
+[the report](https://www.civilrightsproject.ucla.edu/research/k-12-education/integration-and-diversity/nyc-school-segregation-report-card-still-last-action-needed-now/NYC_6-09-final-for-post.pdf "UCLA report on NY Segregation")
+on page 92 (the last page). The quantity measures the amount of exposure of one
+demographic group to another demographic group. In particular, it is the
+quantity given by the hypothetical:
+
+> Given a randomly selected member of demographic group $A$ in the district.
+> What is the probability that if they randomly select a classmate, that
+> classmate will belong to demographic group $B$?
+
+```math
+E_{AB} = \mathbb{E}_{a \sim \mathcal{A}} \left[ \mathbb{P}_{s \sim \mathcal{S}(a)} \left( s \in B \right) \right] = \frac{1}{A} \sum_{i} a_i \cdot \frac{b_i}{t_i}
+```
+
+In the first expression, $\mathcal{A}$ is the distribution over schools
+determined by demographic group $A$, $\mathcal{S}$ is the probability over
+students in a school, and $\mathcal{S}(s)$ is the school determined by student
+$s$. In the second expression, $A$ is the number of students belonging to
+demographic group $A$ in a larger district, $a_i$ is the number of students in
+school $i$ of demographic group $A$, and $t_i$ is the total number of students
+in school $i$.
+
+For a given larger unit (such as a county), we may summarize exposure rates in a
+matrix $E$ whose entries are given by the exposure rates $E_{AB}$. Each row,
+$E_A$ then corresponds to the class composition of a the typical student of
+demographic group $A$.
+
+I focused mostly on the New York City area because it has a much more diverse
+student body than the rest of the state, but I also took a look at Onondaga,
+since that's the county I currently live in. Here's a plot of the non-White
+student population in New York State by county, just as confirmation:
+
+<img src={nonWhiteMap} class="small" alt="" />
+
+I generated some of the exposure matrices and plotted them below. Most of the
+matrices are for the county level. The only two matrices that are not generated
+from aggregation on the county level are "NYC", which aggregates all boroughs
+together, and "NY STATE", which aggregates at the state level.
+
+<img src={nonNormalizedExposureMatrix} className="med" alt="" />
+
+How should we interpret these matrices? Well, if a student's race doesn't affect
+which school they get sorted into, then we would expect each _row_ of a given
+matrix to be the same. Thus, the more vertical stripy-ness we see in the matrix,
+the better! We could even measure this quantity numerically:
+
+I see two main ways to do this. My first thought was to consider the _rank_ of
+the resulting matrix, since if all the rows of the matrix are equal, then the
+rank would be zero. Of course, we would want to avoid measuring the rank
+directly, since these matrices are sufficiently generic that they should be full
+rank. Thus, we want a more stable approximation of the rank. A classic example
+is the nuclear norm, which forms a convex envelope of rank when
+$\| E \|_{2} \le 1$. However, the math here is already getting far too
+complicated for the use case, and I suspect that this approach will lack any
+clear interpretability.
+
+However, I have a second idea that I think will serve the problem better. Since
+the demographic groups that I'm using sum to one, and my major concern is
+understanding the differences of scholastic experience of students from
+different demographic backgrounds, we can treat each row as a vector. We can
+then cluster or plot the PCA of these vectors to get a sense of student
+experience. However, PCA'ing these will give inconsistent choices of axes
+between different counties, so I won't be able to compare that well. I also
+tried grouping them together into one big data set. However, this approach picks
+up the overall demographic differences in the county "too much" and is
+distracted by the overall baseline rates.
+
+How do we solve this? Well, the matrices I generated care a lot about the
+overall demographic makeup of the county. This is good to do to have an
+expression for the lived experience of the "average", student. However, when
+discussing school segregation, it is helpful to consider the segregation
+_relative to_ what one would expect if there was no segregation at all. That is,
+there is a baseline amount of exposure to a given demographic group that one
+would expect if all schools in a county were exactly representative of the
+overall demographic makeup. To do this, we will divide each column by the
+expected proportion of the overall demographic makeup expected for that group.
+This gives us these matrices:
+
+<img src={normalizedExposureMatrix} className="med" alt="." />
+
+I was surprised to see that these matrices are symmetric! It certainly wasn't
+obvious to me that they should be, but examining the formula makes it clear:
+
+```math
+\tilde{E}_{AB} = \frac{T}{B} E_{AB} = \frac{T}{AB} \sum_{i} \frac{a_i b_i}{t_i} = \frac{T}{A} E_{BA} = \tilde{E}_{BA}
+```
+
+We can understand this quantity as how many more or fewer classmates one has of
+a given group than expected in an unsegregated system. For instance, if
+$\tilde{E}_{AB} = 2.0$, that means that a student belonging to group $A$
+encounters twice as many students of group $B$ as they would if the system was
+unsegregated. In other words, $\tilde{E}_{AB}$ is the amount of representation
+that of group $B$ that group $A$ experiences. So the result means that,
+
+> On average, members of a group $A$ experience members of group $B$ as the same
+> amount _(over/under)-represented_ as members of group $B$ experience members
+> of group $B$ as (over/under)-represented.
+
+For this intuitive reason, I will refer to the quantity $\tilde{E}_{AB}$ as the
+representation between $A$ and $B$. In a system without any partitioning of
+students, this quantity would always be one.
+
+However, in the plot above, we can see a lot of grouping. Values in red
+correspond to over-representation in one's class. So, for instance, in
+Westchester County, we see that students that White, Asian, and Multiracial
+students see overrepresentations of each other, as do Black, American Indian,
+and Hispanic students. Between these two demographic "blocks", there is
+generally under-representation. Perhaps more striking in Westchester county,
+though, is that Black students are over-represented to other Black students by a
+factor of three, while White and Black students see each other at 42% of the
+expected rate.
+
+I am trying hard not to take a moral/ethical stance on this, since it may be the
+case that "segregation" is helpful for students in certain contexts. For
+instance, in Onondaga county, the representation score for American Indians with
+each other is larger than 20. In a vacuum, this means that American Indians see
+twenty times as much of each other as they would if the county had one big
+school. However, the alternative seems worse. In reality, only one fourth of the
+average American Indian student's class is American Indian. In the
+"unsegregated" situation, only about 1% of an American Indian's class would be
+of the same demographic background. This honestly seems worse! So, particularly
+when the overall number of students from a demographic group is small, the
+representation stats might not be the most helpful tool.
+
+That said, we can plot a three-dimensional PCA of these matrices to plot the
+experiences of representaiton of each demographic group. The key thing is the
+plot should be taken with a grain of salt.
+
+<img className="med" src={pcaPlot} />

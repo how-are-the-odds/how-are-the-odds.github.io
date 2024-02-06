@@ -6,6 +6,11 @@
   margin: initial;
 }
 
+.blog > p {
+  padding-top: 1em;
+  text-indent: 1em;
+}
+
 .blog > * {
   /* text-align: left; */
   text-align: justify;
@@ -17,6 +22,25 @@
   max-width: min(700px, 95vw);
 }
 
+.blog > ol {
+  list-style-type: lower-alpha;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 5rem;
+}
+
+.blog > h2 {
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog > h3 {
+  text-align: center;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
 .selector {
   text-align: center;
 }
@@ -24,4 +48,26 @@
 img.small {
   max-width: min(40%, min(700px, 95vw) / 2 - 20px);
   min-width: 50px;
+}
+
+img.med {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  max-width: min(60%, min(800px, 95vw) - 20px);
+  min-width: 50px;
+}
+
+span.katex-display {
+  margin: auto;
+  padding: 1.5rem;
+}
+
+.blog > blockquote {
+  margin-top: 1em;
+  font-family: Open Sans;
+  font-style: italic;
+  color: #555555;
+  padding: 0.5em 1.5rem 0.5em 1.5rem;
+  border-left: 8px solid #9f9f9f;
+  background: #ededed;
 }

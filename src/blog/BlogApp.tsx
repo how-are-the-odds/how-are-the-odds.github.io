@@ -3,10 +3,9 @@ import "./blog.css";
 import { Stack } from "@mui/material";
 import { Article } from "./Article";
 import EntryPreview from "./EntryPreview";
+import { articleNames } from "./ArticleNames";
 
 const BlogApp = () => {
-  const articleNames = ["mathematics_of_transformers", "intro"];
-
   const [articles, setArticles] = useState<Article[]>([]);
 
   async function loadArticles() {

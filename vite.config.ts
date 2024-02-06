@@ -5,14 +5,18 @@ import remarkFrontmatter from "remark-frontmatter";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 
+import { KatexOptions } from "katex";
+
+type Options = Omit<KatexOptions, "displayMode" | "throwOnError">;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     {
       enforce: "pre",
       ...mdx({
-        remarkPlugins: [remarkFrontmatter, remarkMath],
-          rehypePlugins: [rehypeKatex],
+        rehypePlugins: [[rehypeKatex, { displayMode: true }]],
+        remarkPlugins: [[remarkMath]],
       }),
     },
     react(),

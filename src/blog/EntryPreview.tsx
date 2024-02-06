@@ -6,7 +6,6 @@ interface EntryPreviewProps {
 }
 
 const EntryPreview = ({ article }: EntryPreviewProps) => {
-  console.log(article.content)
   return (
     <div>
       <h3 style={{ lineHeight: "0px", display: "inline"}}>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "katex/dist/katex.min.css";
+import "./blog.css";
 import { Article } from "./Article";
 
 const BlogEntry = () => {
@@ -32,12 +33,12 @@ const BlogEntry = () => {
   );
 
   return (
-    <>
+    <div className="blog">
       <p style={{ textAlign: "right", lineHeight: "0px", fontStyle: "italic" }}>
         <Link to="../blog">(Back to blog)</Link>
       </p>
       {articleFormatted}
-    </>
+    </div>
   );
 };
 
