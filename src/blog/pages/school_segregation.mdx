@@ -1,6 +1,7 @@
 import nonNormalizedExposureMatrix from "./ny_segregation_images/unnormalized_exposure_matrices.png";
 import normalizedExposureMatrix from "./ny_segregation_images/normalized_exposure_matrices.png";
 import nonWhiteMap from "./ny_segregation_images/non_white_map.png";
+import rearrangementMap from "./ny_segregation_images/rearrangement_score.png";
 import pcaPlot from "./ny_segregation_images/pca_rep_matrices.png";
 export const title = "Segregation in NY Schools";
 export const date = new Date("2024-02-04");
@@ -202,6 +203,30 @@ appears to be more in line with Black students. I'm of two minds in even keeping
 this plot here, with how little information it communicates.
 
 ### Making some pictures
+
+Moving away from this perspective for a bit, I wanted to consider approaches
+that provide summary statistics. My first thought, which has limitations we will
+see shortly, was to ask "What proportion of the total student body would have to
+be bussed in order to achieve balanced demographics?" If we assume that the
+schools are to maintain the same exact population, this is actually a pretty
+easy question to answer. We simply compute what the expected demographic
+breakdown is, county-wide, apply it on the level of an individual school, and
+record how many students would have to be moved to achieve that break-down.
+Reporting this quantity as a percentage of the total student population provides
+an estimate of how divided the schools are.
+
+<img className="med" src={rearrangementMap} />
+
+Not as informative as I would like! Especially because it seems to map pretty
+well onto the map of minority populations in the state that we looked at
+earlier:
+
+<img src={nonWhiteMap} class="med" alt="" />
+
+It appears that segregation is happening "where it can". The few exceptions to
+this rule are Orange County and the Bronx. I'm not entirely sure what's going on
+in these cases, but I suspect it's not that there is no systemic segregation of
+the school system there.
 
 (This part not done -- I'm going to select some summary statistics and plot them
 here).
