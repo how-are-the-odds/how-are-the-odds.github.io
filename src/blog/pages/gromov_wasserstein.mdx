@@ -1,0 +1,183 @@
+import equatorialMap from "./gw_images/gw_coupling.png";
+import couplingAnim1 from "./gw_images/coupling_anim_1.gif";
+import couplingAnim4 from "./gw_images/coupling_anim_3.gif";
+import couplingAnim6 from "./gw_images/coupling_anim_6.gif";
+import couplingAnim7 from "./gw_images/coupling_anim_7.gif";
+import couplingAnim8 from "./gw_images/coupling_anim_8.gif";
+import couplingAnim9 from "./gw_images/coupling_anim_9.gif";
+import couplingAnim10 from "./gw_images/coupling_anim_10.gif";
+import couplingAnim11 from "./gw_images/coupling_anim_11.gif";
+export const title = "Gromov-Wasserstein Distance between Spheres";
+export const date = new Date("2024-02-08");
+export const preview =
+  "Discussion of the Gromov-Wasserstein distance in preparation for a presentation at the AMS Southeast Spring Sectional Meeting.";
+
+I'm going to be delivering a talk in March at the
+[AMS Southeast Spring Sectional Meeting](http://www.ams.org/meetings/sectional/2313_program_ss12.html#title)
+in Tallahassee during the special session on Geometry and Symmetry in Data
+Science. [Ranthony Edmonds](http://www.ranthonyclark.com/) and I will be talking
+in series about a monstrosity of a paper we contributed to:
+[The Gromov Wasserstein Distance between Spheres](https://arxiv.org/abs/2306.10586).
+This paper was an absurd amount of work to write up and trim down--there are
+many smaller results we decided to omit, which I think everyone involved in the
+paper may have forgotten (I certainly have).
+
+This is a convenient topic, since a portion of my thesis features my work on the
+paper, and so I am happy to have the opportunity to think about it for double
+reasons. I'm also hoping to use the excuse to make some graphics for
+understanding our results better.
+
+Ranthony will be speaking about the front half of the paper, which features a
+variety of lower bounds, and I will follow up with the exact computation of the
+Gromov Wasserstein distance in a particular case (we formulate the space of
+Gromov Wasserstein distances by parameters $p$ and $q$ and we find the exact
+computation only for $p=4$, $q=2$ and when the spaces are spheres).
+
+## The Gromov Wasserstein Family
+
+In the paper, we formulate a family of Gromov Wasserstein distances between
+metric measure spaces:
+
+```math
+\operatorname{GW}_{p, q}(X, Y) := \inf_{\gamma \in \mathcal{C}(X, Y)} \left[ \int_{X\times Y} \int_{X\times Y} \left( d_X^q(x, x') - d_Y^q(y, y') \right)^{p / q} \ d\gamma(x, y) \ d\gamma(x', y') \right]^{1/p}
+```
+
+Oh boy! What a disgusting expression. But alas we are stuck with it if we want
+the flexibility of the Gromov Wasserstein distance. If you are not familiar with
+the GW distance, the basic idea is to match up points in two spaces ($X$ and
+$Y$) such that points in $X$ that are given distance apart correspond to points
+in the space $Y$ that are a similar distance apart. The way one elects to punish
+the discrepancy is given by the parameters $p$ and $q$. Extremal choices of $p$
+and $q$ (i.e. $0$ and $\infty$) correspond to other distances between metric
+measure spaces that I am less familiar with.
+
+## In Practice
+
+Solving the non-convex infimization problem at the heart of Gromov Wasserstein
+is a form of
+[Quadratic Assignment Problem](https://en.wikipedia.org/wiki/Quadratic_assignment_problem),
+which is
+[NP-Hard](https://proceedings.mlr.press/v162/scetbon22b/scetbon22b.pdf). In
+practice, solutions are pursued through either a low rank approach or via
+entropic regularization (or both). Relevantly, the form of the Gromov
+Wasserstein distance used in practice by default does not align with the
+[distance first introduced by Memoli](https://media.adelaide.edu.au/acvt/Publications/2011/2011-Gromov%E2%80%93Wasserstein%20Distances%20and%20the%20Metric%20Approach%20to%20Object%20Matching.pdf),
+but rather packages like [OTT](https://ott-jax.readthedocs.io/en/latest/) use
+the $(p, q) = (4, 2)$ distance by default.
+
+This is convenient for two reasons:
+
+1. It justifies our study of this broader family.
+2. This case interacts very pleasantly with the metric if both $X$ and $Y$ are
+   Hilbert spaces, which helps us from a proof perspective.
+
+## The Key Move
+
+I'll narrow down to point (b.). If the distances are both given by the norm of
+an inner product space and the points sit on a sphere, then the optimization
+problem can be rewritten as (see our paper for details, the quantity in question
+is $J(\gamma)$):
+
+```math
+\operatorname{GW}_{4, 2}(X, Y) \sim \sup_{\gamma \in \mathcal{C}(X, Y)} \int_{X \times Y}\int_{X \times Y} \langle x, x' \rangle \langle y, y' \rangle \ d\gamma(x, y) \ d\gamma(x', y')
+```
+
+I'm abstractly interested in ways to do this same sort of move in cases when one
+is not restricted to the sphere, but I haven't been able to suss anything out
+without requiring the points to be on the sphere in some fashion. The key
+feature of this move is the following trace-cycling move:
+
+```math
+\langle x, x' \rangle \langle y, y' \rangle = x^t x' (y'^t) x' = \operatorname{Tr}[x^t x' (y'^t) y] = \operatorname{Tr}[yx^t (y'(x')^t)^t].
+```
+
+The trace can then be pulled out of the double integral by linearity to get
+(after subsequent simplifications),
+
+```math
+\sup_{\gamma \in \mathcal{C}(X, Y)} \int_{X \times Y}\int_{X \times Y} \langle x, x' \rangle \langle y, y' \rangle \ d\gamma(x, y) \ d\gamma(x', y') =
+\sup_{\gamma \in \mathcal{C}(X, Y)} \left\| \int_{X \times Y} x y^t \ d\gamma(x, y) \right\|_F^2
+
+```
+
+However, currently this trick seems quite dependent on the points being on the
+sphere. With this new objective, we can proceed with a rather technical argument
+to show that the optimal value between two spheres is achieved via an
+"equatorial map".
+
+## Visualizing the Equatorial Map
+
+This map consists of projecting the larger sphere down to the smaller dimension
+orthogonally, and then rescaling the points to lie on the sphere. Here's what
+the coupling looks like between a sphere and a circle:
+
+<img className="small" src={equatorialMap} />
+
+This is a risky plot to make, since it implies that the two spheres live in the
+same space while the fundamental value of the Gromov Wasserstein distance is
+that it does not require the two metric measure spaces to live in the same
+ambient space. In preparation for the talk, I've tried to make illustrations
+that better capture this idea.
+
+I used [OTT](https://ott-jax.readthedocs.io/en/latest/)'s entropic Gromov
+Wasserstein solver to explicitly find a coupling between a sphere and a circle.
+Next, we light up points on the circle and simultaneously light up their
+counterparts on the sphere. Note that the particular correspondence does not
+match up to the illustration above, since there are a variety of valid
+"equators" to select within the sphere. Hopefully in this picture it is clear
+that the two spaces are distinct.
+
+<img className="med" src={couplingAnim1} />
+
+However, this is a plot of "sections", and it might be valuable to see more
+viscerally where each point in the sphere is going. Since the optimal coupling
+happens to be achievable through an actual map, we can illustrate the process of
+moving points according to the coupling.
+
+<img className="med" src={couplingAnim4} />
+
+I have tried to shift the points over while matching to emphasize that the two
+spaces are distinct, but I think that it might be fundamentally distracting.
+Here's what it looks like without the shifting. We color points close to use
+red, and points far away blue
+
+<img className="med" src={couplingAnim6} />
+
+There's still a twist due to the rotation-ambiguity of the optimal coupling.
+
+## Future Directions
+
+### Altering $p$ and $q$
+
+My main concern is how changing $p$ and $q$ changes the optimal coupling. It
+appears that there might be some dependence of the coupling on $p$ and $q$, and
+its certainly unclear what the best coupling is in these cases. I haven't been
+able to suss out what the optimal couplings are in any other cases.
+
+For instance, when $(p, q) = (2, 1)$, the coupling looks like it might be
+equatorial, but I'm not sure.
+
+<img className="med" src={couplingAnim10} />
+<br />
+<img className="med" src={couplingAnim11} />
+
+However, changing to $(8, 4)$ seems to yield a different coupling (not that I
+can identify what it is either!):
+
+<img className="med" src={couplingAnim9} />
+
+<br />
+
+<img className="med" src={couplingAnim8} />
+
+### Altering the spaces
+
+A disappointing feature of the case of spheres is the symmetry built into the
+geometry. The local distribution of distances (i.e. the density of distances
+from a given point to every other point in the sphere) at any point in the
+sphere is always the same. This allows the ambiguity of many possible equatorial
+couplings as well. I'd be particularly interested in finding spaces where the
+local distributions of distances differ from the global distribution (i.e. the
+local distributions averaged over all points). This would induce a gap in the
+third and second lower bounds, and give a better framework for how tight the
+third lower bound is in specific cases.
