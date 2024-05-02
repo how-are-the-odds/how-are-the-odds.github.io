@@ -41,6 +41,14 @@ const Root = () => {
           <Button
             className="nav-button"
             component={Link}
+            to={`jeopardy`}
+            variant="contained"
+          >
+            Jeopardy
+          </Button>
+          <Button
+            className="nav-button"
+            component={Link}
             to={`blog`}
             variant="contained"
           >

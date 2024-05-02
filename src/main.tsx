@@ -13,6 +13,7 @@ import BaseballDoc from "./baseball/Components/BaseballDoc";
 import MicrogradApp from "./neuralnets/MicrogradApp";
 import BlogApp from "./blog/BlogApp";
 import BlogEntry from "./blog/BlogEntry";
+import JeopardyApp from "./jeopardy/JeopardyApp";
 
 const router = createHashRouter([
   {
@@ -34,6 +35,7 @@ const router = createHashRouter([
           },
         ],
       },
+      { path: "jeopardy", element: <JeopardyApp></JeopardyApp> },
       {
         path: "machine-learning",
         element: <MicrogradApp></MicrogradApp>,
