@@ -6,6 +6,7 @@ import { Login } from "./Login";
 import { UserInfoBox } from "./UserInfoBox";
 import { InteractionBox } from "./InteractionBox";
 import { apiUrl } from "./Apiurl";
+import { checkUserExists } from "./ApiCalls";
 
 const JeopardyApp = () => {
   const maxClueQueueLength = 3;
@@ -20,32 +21,14 @@ const JeopardyApp = () => {
 
   useEffect(() => {
     if (loginStatus.loggedIn) {
-      checkUserExists(loginStatus.username);
-      for (let i = 0; i < maxClueQueueLength; i++) {
-        getClue(loginStatus.username);
-      }
+      checkUserExists(loginStatus.username).then(() => {
+        for (let i = 0; i < maxClueQueueLength; i++) {
+          getClue(loginStatus.username);
+        }
+      });
     }
   }, [loginStatus]);
 
-  const checkUserExists = (username: string) => {
-    let data = new FormData();
-    data.append("username", username);
-    fetch(apiUrl + "check_user", { method: "POST", body: data })
-      .then((response) => response.json())
-      .then((response) => {
-        if (!response["user_exists"]) {
-          createUser(username);
-        }
-      });
-  };
-
-  const createUser = (username: string) => {
-    let data = new FormData();
-    data.append("username", username);
-    fetch(apiUrl + "create_user", { method: "POST", body: data }).then(
-      (response) => console.log(response)
-    );
-  };
   const getClue = (username: string) => {
     let data = new FormData();
     data.append("username", username);
