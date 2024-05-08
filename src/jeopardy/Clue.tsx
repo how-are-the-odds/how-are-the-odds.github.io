@@ -2,7 +2,8 @@ interface Clue {
     category: string;
     question: string;
     response: string;
-    clue_id: number;
+    clueValue: string;
+    clueId: number;
 }
 
 export default Clue

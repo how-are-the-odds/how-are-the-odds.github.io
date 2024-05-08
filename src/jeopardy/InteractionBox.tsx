@@ -3,6 +3,7 @@ import Clue from "./Clue";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { apiUrl } from "./Apiurl";
 import LoginStatus from "./LoginStatus";
+import { ClueDisplay } from "./ClueDisplay";
 
 interface InteractionBoxProps {
   clueQueue: Clue[];
@@ -11,6 +12,7 @@ interface InteractionBoxProps {
   loginStatus: LoginStatus;
   getClue: (username: string) => void;
   setHitRate: (hitRate: number | undefined) => void;
+  setAveragePointsEarned: (averagePointsEarned: number | undefined) => void;
 }
 
 export const InteractionBox = ({
@@ -20,6 +22,7 @@ export const InteractionBox = ({
   loginStatus,
   getClue,
   setHitRate,
+  setAveragePointsEarned,
 }: InteractionBoxProps) => {
   const inputBoxRef = useRef<HTMLInputElement | null>(null);
   const yesButtonRef = useRef<HTMLInputElement | null>(null);
@@ -35,12 +38,13 @@ export const InteractionBox = ({
   const recordToServer = (clue: Clue, correct: boolean) => {
     let data = new FormData();
     data.append("username", loginStatus.username);
-    data.append("clue_id", String(clue.clue_id));
+    data.append("clue_id", String(clue.clueId));
     data.append("correct", String(correct));
     fetch(apiUrl + "record_user_clue", { method: "POST", body: data })
       .then((response) => response.json())
       .then((response) => {
         setHitRate(response["hit_rate"]);
+        setAveragePointsEarned(response["average_points_earned"]);
       });
   };
   const recordResponse = (clue: Clue | undefined, correct: boolean) => {
@@ -84,8 +88,8 @@ export const InteractionBox = ({
 
   return (
     <div>
-      <Container>{clueQueue[0]?.category}</Container>
-      <Container maxWidth="sm">{clueQueue[0]?.question}</Container>
+      <ClueDisplay clue={clueQueue[0]}></ClueDisplay>
+      {/* <Container>{clueQueue[0]?.category}</Container> */}
       <Container>
         <TextField
           onKeyDown={checkEnter}

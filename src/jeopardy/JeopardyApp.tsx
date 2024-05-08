@@ -7,9 +7,10 @@ import { UserInfoBox } from "./UserInfoBox";
 import { InteractionBox } from "./InteractionBox";
 import { apiUrl } from "./Apiurl";
 import { checkUserExists } from "./ApiCalls";
+import { ClueDisplay } from "./ClueDisplay";
 
 const JeopardyApp = () => {
-  const maxClueQueueLength = 3;
+  const maxClueQueueLength = 2;
   const [clueQueue, setClueQueue] = useState<Clue[]>([]);
   const [response, setResponse] = useState("");
   const [loginStatus, setLoginStatus] = useState<LoginStatus>({
@@ -18,6 +19,9 @@ const JeopardyApp = () => {
   });
   const [loginInput, setLoginInput] = useState<string>("");
   const [hitRate, setHitRate] = useState<number | undefined>(undefined);
+  const [averagePointsEarned, setAveragePointsEarned] = useState<
+    number | undefined
+  >(undefined);
 
   useEffect(() => {
     if (loginStatus.loggedIn) {
@@ -38,8 +42,6 @@ const JeopardyApp = () => {
     fetch(apiUrl + "user_clue", { method: "POST", body: data })
       .then((response) => response.json())
       .then((response: Clue) => {
-        console.log({ clueQueue: clueQueue });
-        console.log(response);
         setClueQueue((clueQueue) => [...clueQueue, response]);
       });
   };
@@ -52,6 +54,7 @@ const JeopardyApp = () => {
               loginStatus={loginStatus}
               setLoginStatus={setLoginStatus}
               hitRate={hitRate}
+              averagePointsEarned={averagePointsEarned}
             />
           ) : (
             <Login
@@ -68,6 +71,7 @@ const JeopardyApp = () => {
           loginStatus={loginStatus}
           getClue={getClue}
           setHitRate={setHitRate}
+          setAveragePointsEarned={setAveragePointsEarned}
         />
       </Stack>
       <br />

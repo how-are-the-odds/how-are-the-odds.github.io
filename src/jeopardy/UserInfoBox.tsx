@@ -5,12 +5,14 @@ interface UserInfoBoxProps {
   loginStatus: LoginStatus;
   setLoginStatus: (loginStatus: LoginStatus) => void;
   hitRate: number | undefined;
+  averagePointsEarned: number | undefined;
 }
 
 export const UserInfoBox = ({
   loginStatus,
   setLoginStatus,
   hitRate,
+  averagePointsEarned,
 }: UserInfoBoxProps) => {
   const handleLogout = () => {
     setLoginStatus({ loggedIn: false, username: "" });
@@ -18,8 +20,17 @@ export const UserInfoBox = ({
   return (
     <Stack style={UserInfoBoxStyles}>
       <Container>Logged in as: {loginStatus.username}</Container>
-      {hitRate ? (
-        <Container>Current win rate: {Math.round(hitRate! * 100)}%</Container>
+      {(hitRate !== undefined) ? (
+        <Container>
+          {Math.round(hitRate! * 100)}% of questions answered correctly
+        </Container>
+      ) : (
+        <></>
+      )}
+      {averagePointsEarned ? (
+        <Container>
+          Average points earned per clue: {Math.round(averagePointsEarned)}
+        </Container>
       ) : (
         <></>
       )}
