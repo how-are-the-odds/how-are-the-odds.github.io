@@ -7,7 +7,6 @@ import { UserInfoBox } from "./UserInfoBox";
 import { InteractionBox } from "./InteractionBox";
 import { apiUrl } from "./Apiurl";
 import { checkUserExists } from "./ApiCalls";
-import { ClueDisplay } from "./ClueDisplay";
 
 const JeopardyApp = () => {
   const maxClueQueueLength = 2;
