@@ -16,7 +16,6 @@ export const ControlsBox = ({ beta, setBeta }: ControlsBoxProps) => {
       Math.round((beta / 80 + 0.5) * 255).toString(16) +
       Math.round((-beta / 80 + 0.5) * 255).toString(16) +
       Math.round((-beta / 80 + 0.5) * 255).toString(16);
-    console.log(color);
     return color;
   };
   const sliderTheme = createTheme({
