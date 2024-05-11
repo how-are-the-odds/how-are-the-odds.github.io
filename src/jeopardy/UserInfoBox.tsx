@@ -1,11 +1,15 @@
 import { Button, Container, Stack } from "@mui/material";
 import LoginStatus from "./LoginStatus";
+import { ControlsBox } from "./ControlsBox";
+import { Dispatch, SetStateAction } from "react";
 
 interface UserInfoBoxProps {
   loginStatus: LoginStatus;
   setLoginStatus: (loginStatus: LoginStatus) => void;
   hitRate: number | undefined;
   averagePointsEarned: number | undefined;
+  beta: number,
+  setBeta: Dispatch<SetStateAction<number>>;
 }
 
 export const UserInfoBox = ({
@@ -13,6 +17,8 @@ export const UserInfoBox = ({
   setLoginStatus,
   hitRate,
   averagePointsEarned,
+  beta,
+  setBeta,
 }: UserInfoBoxProps) => {
   const handleLogout = () => {
     setLoginStatus({ loggedIn: false, username: "" });
@@ -34,6 +40,9 @@ export const UserInfoBox = ({
       ) : (
         <></>
       )}
+      <Container maxWidth="xs">
+        <ControlsBox beta={beta} setBeta={setBeta}></ControlsBox>
+      </Container>
       <Container>
         <Button onClick={handleLogout}>Log out</Button>
       </Container>

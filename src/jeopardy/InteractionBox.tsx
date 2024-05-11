@@ -10,7 +10,7 @@ interface InteractionBoxProps {
   response: string;
   setResponse: (response: string) => void;
   loginStatus: LoginStatus;
-  getClue: (username: string) => void;
+  shortGetClue: () => void;
   setHitRate: (hitRate: number | undefined) => void;
   setAveragePointsEarned: (averagePointsEarned: number | undefined) => void;
 }
@@ -20,7 +20,7 @@ export const InteractionBox = ({
   response,
   setResponse,
   loginStatus,
-  getClue,
+  shortGetClue,
   setHitRate,
   setAveragePointsEarned,
 }: InteractionBoxProps) => {
@@ -56,7 +56,7 @@ export const InteractionBox = ({
 
     // API calls
     recordToServer(clue, correct);
-    getClue(loginStatus.username);
+    shortGetClue();
   };
 
   useEffect(() => {
@@ -89,7 +89,6 @@ export const InteractionBox = ({
   return (
     <div>
       <ClueDisplay clue={clueQueue[0]}></ClueDisplay>
-      {/* <Container>{clueQueue[0]?.category}</Container> */}
       <Container>
         <TextField
           onKeyDown={checkEnter}

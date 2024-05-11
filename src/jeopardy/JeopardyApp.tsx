@@ -5,8 +5,7 @@ import LoginStatus from "./LoginStatus";
 import { Login } from "./Login";
 import { UserInfoBox } from "./UserInfoBox";
 import { InteractionBox } from "./InteractionBox";
-import { apiUrl } from "./Apiurl";
-import { checkUserExists } from "./ApiCalls";
+import { checkUserExists, getClue } from "./ApiCalls";
 
 const JeopardyApp = () => {
   const maxClueQueueLength = 2;
@@ -21,29 +20,27 @@ const JeopardyApp = () => {
   const [averagePointsEarned, setAveragePointsEarned] = useState<
     number | undefined
   >(undefined);
+  const [beta, setBeta] = useState(20);
+
+  const shortGetClue = () =>
+    getClue(
+      loginStatus.username,
+      clueQueue,
+      setClueQueue,
+      maxClueQueueLength,
+      beta
+    );
 
   useEffect(() => {
     if (loginStatus.loggedIn) {
       checkUserExists(loginStatus.username).then(() => {
         for (let i = 0; i < maxClueQueueLength; i++) {
-          getClue(loginStatus.username);
+          shortGetClue();
         }
       });
     }
   }, [loginStatus]);
 
-  const getClue = (username: string) => {
-    let data = new FormData();
-    data.append("username", username);
-    if (clueQueue.length >= maxClueQueueLength) {
-      setClueQueue((clueQueue) => [...clueQueue.slice(1)]);
-    }
-    fetch(apiUrl + "user_clue", { method: "POST", body: data })
-      .then((response) => response.json())
-      .then((response: Clue) => {
-        setClueQueue((clueQueue) => [...clueQueue, response]);
-      });
-  };
   return (
     <div>
       <Stack>
@@ -54,6 +51,8 @@ const JeopardyApp = () => {
               setLoginStatus={setLoginStatus}
               hitRate={hitRate}
               averagePointsEarned={averagePointsEarned}
+              beta={beta}
+              setBeta={setBeta}
             />
           ) : (
             <Login
@@ -68,7 +67,7 @@ const JeopardyApp = () => {
           response={response}
           setResponse={setResponse}
           loginStatus={loginStatus}
-          getClue={getClue}
+          shortGetClue={shortGetClue}
           setHitRate={setHitRate}
           setAveragePointsEarned={setAveragePointsEarned}
         />
