@@ -32,7 +32,6 @@ export const getClue = (
   let data = new FormData();
   data.append("username", username);
   data.append("beta", String(beta))
-  console.log(beta)
   if (clueQueue.length >= maxClueQueueLength) {
     setClueQueue((clueQueue: Clue[]) => [...clueQueue.slice(1)]);
   }
