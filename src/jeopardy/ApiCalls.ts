@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { apiUrl } from "./Apiurl";
+import { apiUrl } from "./ApiUrl";
 import Clue from "./Clue";
 
 export const checkUserExists = (username: string) => {

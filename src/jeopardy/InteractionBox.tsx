@@ -1,9 +1,11 @@
-import { Container, TextField, Button } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 import Clue from "./Clue";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { apiUrl } from "./Apiurl";
+import { apiUrl } from "./ApiUrl";
 import LoginStatus from "./LoginStatus";
 import { ClueDisplay } from "./ClueDisplay";
+import { ResponseComponent } from "./ResponseComponent";
+import { Submission } from "./Submission";
 
 interface InteractionBoxProps {
   clueQueue: Clue[];
@@ -27,19 +29,21 @@ export const InteractionBox = ({
   const inputBoxRef = useRef<HTMLInputElement | null>(null);
   const yesButtonRef = useRef<HTMLInputElement | null>(null);
   const [responseVisible, setResponseVisible] = useState(false);
-  const submitAnswer = () => {
+  const [answered, setAnswered] = useState(false);
+  const submitAnswer = (answered: boolean) => {
+    setAnswered(answered);
     setResponseVisible(true);
   };
   const checkEnter = (e: KeyboardEvent<HTMLImageElement>) => {
     if (e.key === "Enter") {
-      submitAnswer();
+      submitAnswer(true);
     }
   };
-  const recordToServer = (clue: Clue, correct: boolean) => {
+  const recordToServer = (clue: Clue, correct: boolean | "notAnswered") => {
     let data = new FormData();
     data.append("username", loginStatus.username);
     data.append("clue_id", String(clue.clueId));
-    data.append("correct", String(correct));
+    data.append("clue_score", String(correct));
     fetch(apiUrl + "record_user_clue", { method: "POST", body: data })
       .then((response) => response.json())
       .then((response) => {
@@ -47,7 +51,11 @@ export const InteractionBox = ({
         setAveragePointsEarned(response["average_points_earned"]);
       });
   };
-  const recordResponse = (clue: Clue | undefined, correct: boolean) => {
+
+  const recordResponse = (
+    clue: Clue | undefined,
+    correct: boolean | "notAnswered"
+  ) => {
     setResponse("");
     setResponseVisible(false);
     if (clue === undefined) {
@@ -71,21 +79,6 @@ export const InteractionBox = ({
     }
   }, [responseVisible]);
 
-  const responseComponent = (response: string | undefined) => {
-    return (
-      <Container>
-        {response}
-        <br />
-        Did you get it right?
-        <br />
-        <Button onClick={() => recordResponse(clueQueue[0], true)}>
-          Yes
-        </Button>{" "}
-        <Button onClick={() => recordResponse(clueQueue[0], false)}>No</Button>
-      </Container>
-    );
-  };
-
   return (
     <div>
       <ClueDisplay clue={clueQueue[0]}></ClueDisplay>
@@ -99,10 +92,15 @@ export const InteractionBox = ({
         />
       </Container>
       <Container>
-        <Button onClick={submitAnswer}>Submit</Button>
-      </Container>
-      <Container>
-        {responseVisible ? responseComponent(clueQueue[0]?.response) : " "}
+        {responseVisible ? (
+          <ResponseComponent
+            response={clueQueue[0].response}
+            recordResponse={(correct) => recordResponse(clueQueue[0], correct)}
+            requireScoring={answered}
+          ></ResponseComponent>
+        ) : (
+          <Submission submitAnswer={submitAnswer}></Submission>
+        )}
       </Container>
     </div>
   );
