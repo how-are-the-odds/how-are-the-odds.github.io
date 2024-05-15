@@ -4,6 +4,7 @@ interface Clue {
     response: string;
     clueValue: string;
     clueId: number;
+    clueDate: string;
 }
 
 export default Clue

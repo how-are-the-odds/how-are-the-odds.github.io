@@ -12,7 +12,7 @@ export const ClueDisplay = ({ clue }: ClueDisplayProps) => {
   return (
     <Stack>
       <Container maxWidth="sm">
-        {clue.category} ({clue.clueValue})
+        {clue.category} ({clue.clueValue}) [{clue.clueDate}]
       </Container>
       <Container maxWidth="sm">{clue.question}</Container>
     </Stack>
