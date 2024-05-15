@@ -13,8 +13,6 @@ interface InteractionBoxProps {
   setResponse: (response: string) => void;
   loginStatus: LoginStatus;
   shortGetClue: () => void;
-  setHitRate: (hitRate: number | undefined) => void;
-  setAveragePointsEarned: (averagePointsEarned: number | undefined) => void;
 }
 
 export const InteractionBox = ({
@@ -23,8 +21,6 @@ export const InteractionBox = ({
   setResponse,
   loginStatus,
   shortGetClue,
-  setHitRate,
-  setAveragePointsEarned,
 }: InteractionBoxProps) => {
   const inputBoxRef = useRef<HTMLInputElement | null>(null);
   const yesButtonRef = useRef<HTMLInputElement | null>(null);
@@ -41,14 +37,12 @@ export const InteractionBox = ({
   };
   const recordToServer = (clue: Clue, correct: boolean | "notAnswered") => {
     let data = new FormData();
-    data.append("username", loginStatus.username);
+    data.append("username", loginStatus.user?.username ?? "");
     data.append("clue_id", String(clue.clueId));
     data.append("clue_score", String(correct));
     fetch(apiUrl + "record_user_clue", { method: "POST", body: data })
-      .then((response) => response.json())
-      .then((response) => {
-        setHitRate(response["hit_rate"]);
-        setAveragePointsEarned(response["average_points_earned"]);
+      .then(() => {
+        loginStatus.user?.getDataFromServer();
       });
   };
 

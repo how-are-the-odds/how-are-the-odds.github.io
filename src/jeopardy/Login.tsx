@@ -1,5 +1,6 @@
 import { Container, Stack, TextField, Button } from "@mui/material";
 import LoginStatus from "./LoginStatus";
+import User from "./User";
 
 interface LoginProps {
   loginInput: string;
@@ -13,7 +14,9 @@ export const Login = ({
   setLoginStatus,
 }: LoginProps) => {
   const handleLoginClick = () => {
-    setLoginStatus({loggedIn: true, username: loginInput})
+    const user = new User(loginInput);
+    user.getDataFromServer();
+    setLoginStatus({loggedIn: true, user: user})
   };
   return (
     <Stack>

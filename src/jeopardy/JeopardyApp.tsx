@@ -13,18 +13,14 @@ const JeopardyApp = () => {
   const [response, setResponse] = useState("");
   const [loginStatus, setLoginStatus] = useState<LoginStatus>({
     loggedIn: false,
-    username: "",
+    user: null,
   });
   const [loginInput, setLoginInput] = useState<string>("");
-  const [hitRate, setHitRate] = useState<number | undefined>(undefined);
-  const [averagePointsEarned, setAveragePointsEarned] = useState<
-    number | undefined
-  >(undefined);
   const [beta, setBeta] = useState(20);
 
   const shortGetClue = () =>
     getClue(
-      loginStatus.username,
+      loginStatus.user?.username ?? "",
       clueQueue,
       setClueQueue,
       maxClueQueueLength,
@@ -33,7 +29,7 @@ const JeopardyApp = () => {
 
   useEffect(() => {
     if (loginStatus.loggedIn) {
-      checkUserExists(loginStatus.username).then(() => {
+      checkUserExists(loginStatus.user?.username ?? "").then(() => {
         for (let i = 0; i < maxClueQueueLength; i++) {
           shortGetClue();
         }
@@ -49,8 +45,6 @@ const JeopardyApp = () => {
             <UserInfoBox
               loginStatus={loginStatus}
               setLoginStatus={setLoginStatus}
-              hitRate={hitRate}
-              averagePointsEarned={averagePointsEarned}
               beta={beta}
               setBeta={setBeta}
             />
@@ -68,8 +62,6 @@ const JeopardyApp = () => {
           setResponse={setResponse}
           loginStatus={loginStatus}
           shortGetClue={shortGetClue}
-          setHitRate={setHitRate}
-          setAveragePointsEarned={setAveragePointsEarned}
         />
       </Stack>
       <br />

@@ -6,8 +6,6 @@ import { Dispatch, SetStateAction } from "react";
 interface UserInfoBoxProps {
   loginStatus: LoginStatus;
   setLoginStatus: (loginStatus: LoginStatus) => void;
-  hitRate: number | undefined;
-  averagePointsEarned: number | undefined;
   beta: number,
   setBeta: Dispatch<SetStateAction<number>>;
 }
@@ -15,27 +13,25 @@ interface UserInfoBoxProps {
 export const UserInfoBox = ({
   loginStatus,
   setLoginStatus,
-  hitRate,
-  averagePointsEarned,
   beta,
   setBeta,
 }: UserInfoBoxProps) => {
   const handleLogout = () => {
-    setLoginStatus({ loggedIn: false, username: "" });
+    setLoginStatus({ loggedIn: false, user: null });
   };
   return (
     <Stack style={UserInfoBoxStyles}>
-      <Container>Logged in as: {loginStatus.username}</Container>
-      {(hitRate !== undefined) ? (
+      <Container>Logged in as: {loginStatus.user?.username}</Container>
+      {(loginStatus.user?.hitRate !== undefined) ? (
         <Container>
-          {Math.round(hitRate! * 100)}% of questions answered correctly
+          {Math.round(loginStatus.user.hitRate * 100)}% of questions answered correctly
         </Container>
       ) : (
         <></>
       )}
-      {averagePointsEarned ? (
+      {loginStatus.user?.averagePointsEarned ? (
         <Container>
-          Average points earned per clue: {Math.round(averagePointsEarned)}
+          Average points earned per clue: {Math.round(loginStatus.user.averagePointsEarned)}
         </Container>
       ) : (
         <></>

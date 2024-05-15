@@ -41,3 +41,13 @@ export const getClue = (
       setClueQueue((clueQueue) => [...clueQueue, response]);
     });
 };
+
+export const getUserInfo = (username: string) => {
+  let data = new FormData();
+  data.append("username", username);
+  return fetch(apiUrl + "user_info", { method: "POST", body: data })
+    .then((response) => response.json())
+    .then((response) => {
+      return response;
+    });
+}
