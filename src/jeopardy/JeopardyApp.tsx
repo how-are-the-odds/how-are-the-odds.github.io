@@ -6,6 +6,7 @@ import { Login } from "./Login";
 import { UserInfoBox } from "./UserInfoBox";
 import { InteractionBox } from "./InteractionBox";
 import { checkUserExists, getClue } from "./ApiCalls";
+import { UserPlots } from "./UserPlots";
 
 const JeopardyApp = () => {
   const maxClueQueueLength = 2;
@@ -16,7 +17,7 @@ const JeopardyApp = () => {
     user: null,
   });
   const [loginInput, setLoginInput] = useState<string>("");
-  const [beta, setBeta] = useState(20);
+  const [beta, setBeta] = useState(0);
 
   const shortGetClue = () =>
     getClue(
@@ -63,6 +64,7 @@ const JeopardyApp = () => {
           loginStatus={loginStatus}
           shortGetClue={shortGetClue}
         />
+        {loginStatus.user ? <UserPlots user={loginStatus.user} /> : null}
       </Stack>
       <br />
     </div>

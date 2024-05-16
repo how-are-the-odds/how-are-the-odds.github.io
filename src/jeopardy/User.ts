@@ -4,7 +4,10 @@ class User {
   username: string = "";
   hitRate: number | undefined;
   averagePointsEarned: number | undefined;
-  beta: number = 20;
+  betaRecord: number[] = [];
+  dateRecord: string[] = [];
+  winRecord: number[] = [];
+  clueValueRecord: number[] = [];
 
   constructor(username: string) {
     this.username = username;
@@ -14,8 +17,12 @@ class User {
     getUserInfo(this.username).then((response) => {
       this.hitRate = response["hit_rate"];
       this.averagePointsEarned = response["average_points_earned"];
-      console.log(this.username);
-      console.log(this.hitRate, this.averagePointsEarned)
+      this.betaRecord = response["beta_record"];
+      this.dateRecord = response["date_record"];
+      this.winRecord = response["win_record"];
+      this.clueValueRecord = response["clue_value_record"];
+      // console.log(this.winRecord);
+      // console.log(this.dateRecord);
     });
   }
 }
