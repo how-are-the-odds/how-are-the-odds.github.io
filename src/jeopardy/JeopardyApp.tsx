@@ -64,7 +64,9 @@ const JeopardyApp = () => {
           loginStatus={loginStatus}
           shortGetClue={shortGetClue}
         />
-        {loginStatus.user ? <UserPlots user={loginStatus.user} /> : null}
+        <Container maxWidth="sm">
+          {loginStatus.user ? <UserPlots user={loginStatus.user} /> : null}
+        </Container>
       </Stack>
       <br />
     </div>
