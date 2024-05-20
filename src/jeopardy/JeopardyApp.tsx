@@ -53,6 +53,7 @@ const JeopardyApp = () => {
             <Login
               setLoginInput={setLoginInput}
               loginInput={loginInput}
+              loginStatus={loginStatus}
               setLoginStatus={setLoginStatus}
             />
           )}
