@@ -31,7 +31,7 @@ export const getClue = (
 ) => {
   let data = new FormData();
   data.append("username", username);
-  data.append("beta", String(beta))
+  data.append("beta", String(beta));
   if (clueQueue.length >= maxClueQueueLength) {
     setClueQueue((clueQueue: Clue[]) => [...clueQueue.slice(1)]);
   }
@@ -50,4 +50,50 @@ export const getUserInfo = (username: string) => {
     .then((response) => {
       return response;
     });
+};
+
+export const startTrainingGame = (username: string) => {
+  let data = new FormData();
+  data.append("username", username);
+  return fetch(API_URL + "start_training_game", {
+    method: "POST",
+    body: data,
+  }).then((response) => response.json());
+};
+
+export const getQuestion = (interactionId: string) => {
+  let data = new FormData();
+  data.append("interaction_id", interactionId);
+  return fetch(API_URL + "get_question", { method: "POST", body: data })
+    .then((response) => response.json())
+    .then((response) => ({
+      clueId: response["clue_id"],
+      question: response["question"],
+      category: response["category"],
+      clueValue: response["clue_value"],
+      clueDate: response["clue_date"],
+      response: null,
+    }));
+};
+
+interface clueAnswer {
+  interaction_id: string;
+  clue_id: string;
+  response: string;
 }
+
+export const answerQuestion = ({
+  interaction_id,
+  clue_id,
+  response,
+}: clueAnswer, username: string) => {
+  let data = new FormData();
+  data.append("interaction_id", interaction_id);
+  data.append("username", username);
+  data.append("clue_id", String(clue_id));
+  data.append("response", response);
+  return fetch(API_URL + "answer_question", {
+    method: "POST",
+    body: data,
+  }).then((response) => response.json());
+};

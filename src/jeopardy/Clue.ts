@@ -1,9 +1,9 @@
 interface Clue {
     category: string;
     question: string;
-    response: string;
+    response: string | null;
     clueValue: string;
-    clueId: number;
+    clueId: string;
     clueDate: string;
 }
 

@@ -1,0 +1,31 @@
+.bubble {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  white-space: nowrap;
+  animation: rise 2s ease-in-out;
+}
+
+.bubble.correct {
+  background-color: green;
+}
+
+.bubble.incorrect {
+  background-color: red;
+}
+
+@keyframes rise {
+  0% { opacity: 0; transform: translate(-50%, 10px); }
+  50% { opacity: 1; transform: translate(-50%, -10px); }
+  100% { opacity: 0; transform: translate(-50%, -30px); }
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
