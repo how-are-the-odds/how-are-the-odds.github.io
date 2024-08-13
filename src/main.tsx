@@ -14,6 +14,7 @@ import MicrogradApp from "./neuralnets/MicrogradApp";
 import BlogApp from "./blog/BlogApp";
 import BlogEntry from "./blog/BlogEntry";
 import JeopardyApp from "./jeopardy/JeopardyApp";
+import AllergyChecker from "./allergies/AllergyChecker";
 
 const router = createHashRouter([
   {
@@ -35,6 +36,7 @@ const router = createHashRouter([
           },
         ],
       },
+      {path: "allergy-checker", element: <AllergyChecker></AllergyChecker>},
       { path: "jeopardy", element: <JeopardyApp></JeopardyApp> },
       {
         path: "machine-learning",
