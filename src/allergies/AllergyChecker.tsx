@@ -6,7 +6,6 @@ import {
   Stack,
   MenuItem,
   SelectChangeEvent,
-  Tooltip,
 } from "@mui/material";
 import {
   getSpoonacularFoodIngredients,
@@ -15,7 +14,8 @@ import {
 import { AllergyList, Food } from "./FoodStructures";
 import { useEffect, useState } from "react";
 import { uniqBy } from "../utils";
-import { checkFoodAllergy, readAllergyData } from "./AllergyChecking";
+import { readAllergyData } from "./AllergyChecking";
+import { IngredientsDisplay } from "./IngredientsDisplay";
 
 const API_TO_USE = "spoonacular";
 
@@ -117,55 +117,13 @@ const AllergyChecker = () => {
   );
 
   const displayOfIngredients = (
-    <Stack>
-      <Button
-        onClick={() => {
-          setDisplaySearchList(true);
-          setIngredientsToDisplay([]);
-        }}
-      >
-        {selectedFood?.name}
-      </Button>
-      <h4>Ingredients:</h4>
-      {ingredientsToDisplay.map((ingredient) => {
-        const matchingAllergies = activeAllergyLists.map((allergyList) => ({
-          person: allergyList.person,
-          allergies: checkFoodAllergy(allergyList, ingredient),
-        }));
-        const totalAllergiesHit = matchingAllergies.reduce(
-          (acc, curr) => acc + curr.allergies.length,
-          0,
-        );
-        return (
-          <div
-            key={ingredient.id}
-            style={
-              totalAllergiesHit > 0 ? { color: "red" } : { color: "black" }
-            }
-          >
-            {totalAllergiesHit > 0 ? (
-              <Tooltip
-                title={matchingAllergies
-                  .filter((obj) => obj.allergies.length > 0)
-                  .map(
-                    (obj) =>
-                      obj.person +
-                      " is allergic to: " +
-                      obj.allergies.reduce(
-                        (acc, curr) => acc + curr.name + ", ",
-                        "",
-                      ),
-                  )}
-              >
-                <Container>{ingredient.name} 🚫</Container>
-              </Tooltip>
-            ) : (
-              <Container>{ingredient.name} ✅</Container>
-            )}
-          </div>
-        );
-      })}
-    </Stack>
+    <IngredientsDisplay
+      ingredientsToDisplay={ingredientsToDisplay}
+      setIngredientsToDisplay={setIngredientsToDisplay}
+      activeAllergyLists={activeAllergyLists}
+      selectedFood={selectedFood}
+      setDisplaySearchList={setDisplaySearchList}
+    />
   );
 
   return (

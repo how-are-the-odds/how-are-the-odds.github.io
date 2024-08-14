@@ -24,7 +24,7 @@ const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
   allergySeverity: string,
 ) => {
   if (allergyName.toLowerCase() == "dairy") {
-    return {
+    return Allergy.fromObj({
       name: "Dairy",
       severity: allergySeverity,
       foods: [
@@ -45,10 +45,10 @@ const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
           id: 3,
         } as Food,
       ],
-    };
+    });
   }
   if (allergyName.toLowerCase() == "gluten") {
-    return {
+    return Allergy.fromObj({
       name: "Gluten",
       severity: allergySeverity,
       foods: [
@@ -69,9 +69,9 @@ const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
           id: 3,
         } as Food,
       ],
-    };
+    });
   }
-  return {
+  return Allergy.fromObj({
     name: allergyName,
     severity: allergySeverity,
     foods: [
@@ -80,7 +80,7 @@ const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
         id: 0,
       } as Food,
     ],
-  };
+  });
 };
 
 export const readAllergyData = async (): Promise<AllergyList[]> => {
