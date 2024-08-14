@@ -48,6 +48,7 @@
     "@types/d3-fetch": "^3.0.7",
     "@types/d3-scale": "^4.0.8",
     "@types/katex": "^0.16.7",
+    "@types/node": "^22.2.0",
     "@types/plotly.js": "^2.29.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

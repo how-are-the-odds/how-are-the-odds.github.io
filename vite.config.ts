@@ -1,24 +1,28 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import mdx from "@mdx-js/rollup";
 import react from "@vitejs/plugin-react";
-import remarkFrontmatter from "remark-frontmatter";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 
-import { KatexOptions } from "katex";
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
 
-type Options = Omit<KatexOptions, "displayMode" | "throwOnError">;
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    {
-      enforce: "pre",
-      ...mdx({
-        rehypePlugins: [[rehypeKatex, { displayMode: true }]],
-        remarkPlugins: [[remarkMath]],
-      }),
+  return {
+    define: {
+      "import.meta.env.VITE_SPOONACULAR_API_KEY": JSON.stringify(
+        env.VITE_SPOONACULAR_API_KEY,
+      ),
+      "import.meta.env.VITE_FDA_API_KEY": JSON.stringify(env.VITE_FDA_API_KEY),
     },
-    react(),
-  ],
+    plugins: [
+      {
+        enforce: "pre",
+        ...mdx({
+          rehypePlugins: [[rehypeKatex, { displayMode: true }]],
+          remarkPlugins: [[remarkMath]],
+        }),
+      },
+      react(),
+    ],
+  };
 });
