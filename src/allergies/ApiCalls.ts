@@ -1,7 +1,7 @@
-import { FDA_API_KEY } from "./ApiKeys";
-import { SPOONACULAR_API_KEY } from "./ApiKeys";
 import { Food } from "./FoodStructures";
 
+const FDA_API_KEY = import.meta.env.VITE_FDA_API_KEY;
+const SPOONACULAR_API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 const FDABaseUrl = "https://api.nal.usda.gov/fdc/v1/";
 const SpoonacularBaseUrl = "https://api.spoonacular.com/";
 
