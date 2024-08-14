@@ -38,6 +38,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
+        env:
+          VITE_SPOONACULAR_API_KEY: ${{ secrets.SPOONACULAR_API_KEY }}
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
