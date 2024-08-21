@@ -69,7 +69,7 @@ export const FoodLister = ({ ActiveAllergyList }: FoodListerProps) => {
         options={foodList}
         getOptionLabel={(option) => option.name + " " + (option.emoji ?? "")}
         renderInput={(params) => <TextField {...params} label="Food" />}
-        onChange={(event, value) => {
+        onChange={(_, value) => {
           setSelectedFood(value);
         }}
         isOptionEqualToValue={(food1, food2) => food1.name == food2.name}

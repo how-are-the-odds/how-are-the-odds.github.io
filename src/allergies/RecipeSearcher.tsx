@@ -1,4 +1,4 @@
-import { Stack, Input, Button, TextField } from "@mui/material";
+import { Stack, Button, TextField } from "@mui/material";
 import { IngredientsDisplay } from "./IngredientsDisplay";
 import { AllergyList, Food } from "./FoodStructures";
 import { useState } from "react";
