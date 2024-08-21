@@ -1,8 +1,8 @@
 import { Tooltip, Container, Stack, Button } from "@mui/material";
 
 import { AllergyList, Food } from "./FoodStructures";
-import { colorScale } from "../utils";
 import { checkFoodAllergy } from "./AllergyChecking";
+import { severityNumberToColor } from "./utils";
 
 interface IngredientsDisplayProps {
   ingredientsToDisplay: Food[];
@@ -19,17 +19,6 @@ export const IngredientsDisplay = ({
   selectedFood,
   setDisplaySearchList,
 }: IngredientsDisplayProps) => {
-  const severityColorScale = colorScale("rgb(255, 0, 0)", "rgb(0, 60, 255)");
-
-  const numberToColor = (num: number) => {
-    if (num < 1 || num > 7) {
-      throw RangeError("Unknown severity value: " + num.toString());
-    }
-    const ratio = (num - 1) / 6.001;
-    console.log(num, ratio);
-    console.log(severityColorScale(ratio));
-    return severityColorScale(ratio);
-  };
   return (
     <Stack>
       <Button
@@ -63,7 +52,7 @@ export const IngredientsDisplay = ({
             key={ingredient.id}
             style={
               totalAllergiesHit > 0
-                ? { color: numberToColor(worstAllergyHit) }
+                ? { color: severityNumberToColor(worstAllergyHit) }
                 : { color: "blue" }
             }
           >

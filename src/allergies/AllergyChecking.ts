@@ -1,23 +1,6 @@
 import { Food, Allergy, AllergyList } from "./FoodStructures";
 import { softMatch } from "../utils";
-
-type CSVRow = string[];
-type CSVData = CSVRow[];
-
-async function readCSV(url: string): Promise<CSVData> {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const rows: CSVData = csvText.split("\r\n").map((row) => row.split(","));
-    return rows;
-  } catch (error) {
-    console.error("Error reading CSV:", error);
-    throw error;
-  }
-}
+import { readCSV, CSVData, CSVRow } from "../utils";
 
 const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
   allergyName: string,
@@ -84,7 +67,7 @@ const getAllergy: (allergyName: string, allergySeverity: string) => Allergy = (
 };
 
 export const readAllergyData = async (): Promise<AllergyList[]> => {
-  return await readCSV("allergy_list.csv")
+  return await readCSV("allergy_list.csv", "\r\n")
     .then((data: CSVData) => {
       if (data.length === 0) {
         throw new Error("No data in CSV file");

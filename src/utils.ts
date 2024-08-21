@@ -48,3 +48,44 @@ export const parseColor = (color: string) => {
   }
   throw Error("No match for color pattern of: " + color);
 };
+
+export type CSVRow = string[];
+export type CSVData = CSVRow[];
+
+export async function readCSV(
+  url: string,
+  newLineSymbol: string,
+): Promise<CSVData> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const csvText = await response.text();
+    const rows: CSVData = csvText
+      .split(newLineSymbol)
+      .map((row) => row.split(","));
+    return rows;
+  } catch (error) {
+    console.error("Error reading CSV:", error);
+    throw error;
+  }
+}
+
+export const formatStringList = (strings: string[]) => {
+  if (strings.length == 0) {
+    return "";
+  }
+  if (strings.length == 1) {
+    return strings[0];
+  }
+  if (strings.length == 2) {
+    return strings[0] + " and " + strings[1];
+  }
+
+  const andedStrings = [
+    ...strings.slice(0, -2),
+    strings[-2] + ", and " + strings[-1],
+  ];
+  return andedStrings.reduce((acc, val) => acc + ", " + val, "");
+};

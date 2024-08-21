@@ -2,6 +2,7 @@ export interface Food {
   name: string;
   id: number;
   image: string | null;
+  emoji: string | null;
 }
 
 export class Allergy {
@@ -30,6 +31,9 @@ export class Allergy {
   };
 
   public severityRank = () => Allergy.severityRankDict[this.severity] || 7;
+
+  public isMoreSevereThan = (otherAllergy: Allergy) =>
+    this.severityRank < otherAllergy.severityRank;
 }
 
 // export interface Allergy {
