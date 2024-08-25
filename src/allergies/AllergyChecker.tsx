@@ -1,11 +1,4 @@
-import {
-  Select,
-  Container,
-  Stack,
-  MenuItem,
-  SelectChangeEvent,
-  InputLabel,
-} from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { AllergyList } from "./FoodStructures";
 import { useEffect, useState } from "react";
 import { readAllergyData } from "./AllergyChecking";
@@ -13,6 +6,7 @@ import { RecipeSearcher } from "./RecipeSearcher";
 import { ToolSelector } from "./ToolSelector";
 import { AllergyListDisplay } from "./AllergyListDisplay";
 import { FoodLister } from "./FoodLister";
+import { PersonSelector } from "./PersonSelector";
 
 const availableTools = [
   "RecipeSearcher",
@@ -42,41 +36,14 @@ const AllergyChecker = () => {
     );
   }, [activePeople, allergyLists]);
 
-  const handleChange = (event: SelectChangeEvent<typeof activePeople>) => {
-    const {
-      target: { value },
-    } = event;
-    setActivePeople(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value,
-    );
-  };
-
-  const personSelector = (
-    <Container maxWidth="sm">
-      <InputLabel id="person-selector-label">
-        Select a person (or people)
-      </InputLabel>
-      <Select
-        multiple
-        size="small"
-        value={activePeople}
-        onChange={handleChange}
-        labelId="person-selector-label"
-      >
-        {allergyLists.map((allergyList) => (
-          <MenuItem key={allergyList.person} value={allergyList.person}>
-            {allergyList.person}
-          </MenuItem>
-        ))}
-      </Select>
-    </Container>
-  );
-
   return (
     <Stack>
       <h2>Allergy Checker</h2>
-      <Container>{personSelector}</Container>
+      <PersonSelector
+        activePeople={activePeople}
+        setActivePeople={setActivePeople}
+        allergyLists={allergyLists}
+      />
       <ToolSelector
         availableTools={availableTools}
         toolInUse={toolInUse}

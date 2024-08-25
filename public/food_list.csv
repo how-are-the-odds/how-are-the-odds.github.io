@@ -1,81 +1,78 @@
 Food Name,Allergen,Emoji
-Bread,Gluten, 🍞
-Tomato,Nightshade, 🍅
-Peanut,Legume, 🥜
-Egg,Egg, 🥚
-Milk,Dairy, 🥛
-Eggplant,Nightshade,
-Fish, Seafood, 🐟
-Hazelnut, Tree Nut, 🌰
-Almond, Tree Nut, 🌰
-Cashew, Tree Nut, 🌰
-Pistachio, Tree Nut, 🌰
-Pecan, Tree Nut, 🌰
-Walnut, Tree Nut, 🌰
-Sesame, Seed, 𓇢
-Mustard, Seed, 🌱
-Sulfite, Sulfite, 🧪
-Celery, Oral Allergy Syndrome, 🥬
-Lupin, Legume, 🌱
-Mollusk, Mollusk, 🐚
-Crustacean, Crustacean, 🦀
-Crab, Crustacean, 🦀
-Lobster, Crustacean, 🦞
-Shrimp, Crustacean, 🦐
-Prawn, Crustacean, 🦐
-Scallop, Mollusk, 🐚
-Wheat, Gluten, 🌾
-Beef, Meat, 🥩
-Pork, Meat, 🥓
-Chicken, Meat, 🍗
-Turkey, Meat, 🦃
-Duck, Meat, 🦆
-Goose, Meat, 🦢
-Water, Water, 💧
-Soybean, Soy, 🌱
-Tofu, Soy, 🌱
-Yuba, Soy, 🌱
-Tempeh, Soy, 🌱
-Edamame, Soy, 🌱
-Miso, Soy, 🌱
-Cilantro, Oral Allergy Syndrome, 🌱
-Parsley, Oral Allergy Syndrome, 🌱
-Carrot, Oral Allergy Syndrome, 🥕
-Apple, Oral Allergy Syndrome, 🍎
-Peach, Oral Allergy Syndrome, 🍑
-Plum, Oral Allergy Syndrome, 🍑
-Cherry, Oral Allergy Syndrome, 🍒
-Pear, Oral Allergy Syndrome, 🍐
-Kiwi, Oral Allergy Syndrome, 🥝
-Melon, Oral Allergy Syndrome, 🍈
-Banana, Oral Allergy Syndrome, 🍌
-Pineapple, Oral Allergy Syndrome, 🍍
-Mango, Oral Allergy Syndrome, 🥭
-Papaya, Oral Allergy Syndrome, 🥭
-Avocado, Oral Allergy Syndrome, 🥑
-Strawberry, Oral Allergy Syndrome, 🍓
-Raspberry, Oral Allergy Syndrome, 🍇
-Blackberry, Oral Allergy Syndrome, 🍇
-Blueberry, Oral Allergy Syndrome, 🍇
-Cranberry, Oral Allergy Syndrome, 🍇
-Gooseberry, Oral Allergy Syndrome, 🍇
-Currant, Oral Allergy Syndrome, 🍇
-Grape, Oral Allergy Syndrome, 🍇
-Orange, Oral Allergy Syndrome, 🍊
-Lemon, Oral Allergy Syndrome, 🍋
-Lime, Oral Allergy Syndrome, 🍋
-Grapefruit, Oral Allergy Syndrome, 🍋
-Tangerine, Oral Allergy Syndrome, 🍊
-Mandarin, Oral Allergy Syndrome, 🍊
-Kumquat, Oral Allergy Syndrome, 🍊
-Passionfruit, Oral Allergy Syndrome, 🍊
-Pomegranate, Oral Allergy Syndrome, 🍊
-Lychee, Oral Allergy Syndrome, 🍊
-Guava, Oral Allergy Syndrome, 🍊
-Papaya, Oral Allergy Syndrome, 🍊
-Pineapple, Oral Allergy Syndrome, 🍊
-Mango, Oral Allergy Syndrome, 🍊
-Coconut, Oral Allergy Syndrome, 🥥
-Date, Oral Allergy Syndrome, 🍊
-Fig, Oral Allergy Syndrome, 🍊
-Olive, Oral Allergy Syndrome, 🍊
+Bread,Gluten,🍞
+Tomato,Nightshade,🍅
+Peanut,Legume,🥜
+Egg,Egg,🥚
+Milk,Dairy,🥛
+Eggplant,Nightshade,🍆
+Fish,Seafood,🐟
+Hazelnut,Tree Nut,🌰
+Almond,Tree Nut,🌰
+Cashew,Tree Nut,🌰
+Pistachio,Tree Nut,🌰
+Pecan,Tree Nut,🌰
+Walnut,Tree Nut,🌰
+Sesame,Seed,𓇢
+Mustard,Seed,🌱
+Sulfite,Sulfite,🧪
+Celery,Oral Allergy Syndrome,🥬
+Lupin,Legume,🌱
+Mollusk,Mollusk,🐚
+Crustacean,Crustacean,🦀
+Crab,Crustacean,🦀
+Lobster,Crustacean,🦞
+Shrimp,Crustacean,🦐
+Prawn,Crustacean,🦐
+Scallop,Mollusk,🐚
+Wheat,Gluten,🌾
+Beef,Meat,🥩
+Pork,Meat,🥓
+Chicken,Meat,🍗
+Turkey,Meat,🦃
+Duck,Meat,🦆
+Goose,Meat,🦢
+Water,Water,💧
+Soybean,Soy,🌱
+Tofu,Soy,🌱
+Yuba,Soy,🌱
+Tempeh,Soy,🌱
+Edamame,Soy,🌱
+Miso,Soy,🌱
+Cilantro,Oral Allergy Syndrome,🌱
+Parsley,Oral Allergy Syndrome,🌱
+Carrot,Oral Allergy Syndrome,🥕
+Apple,Oral Allergy Syndrome,🍎
+Peach,Oral Allergy Syndrome,🍑
+Plum,Oral Allergy Syndrome,🍑
+Cherry,Oral Allergy Syndrome,🍒
+Pear,Oral Allergy Syndrome,🍐
+Kiwi,Oral Allergy Syndrome,🥝
+Melon,Oral Allergy Syndrome,🍈
+Banana,Oral Allergy Syndrome,🍌
+Pineapple,Oral Allergy Syndrome,🍍
+Mango,Oral Allergy Syndrome,🥭
+Papaya,Oral Allergy Syndrome,🥭
+Avocado,Oral Allergy Syndrome,🥑
+Strawberry,Oral Allergy Syndrome,🍓
+Raspberry,Oral Allergy Syndrome,🍇
+Blackberry,Oral Allergy Syndrome,🍇
+Blueberry,Oral Allergy Syndrome,🍇
+Cranberry,Oral Allergy Syndrome,🍇
+Gooseberry,Oral Allergy Syndrome,🍇
+Currant,Oral Allergy Syndrome,🍇
+Grape,Oral Allergy Syndrome,🍇
+Orange,Oral Allergy Syndrome,🍊
+Lemon,Oral Allergy Syndrome,🍋
+Lime,Oral Allergy Syndrome,🍋
+Grapefruit,Oral Allergy Syndrome,🍋
+Tangerine,Oral Allergy Syndrome,🍊
+Mandarin,Oral Allergy Syndrome,🍊
+Kumquat,Oral Allergy Syndrome,🍊
+Passionfruit,Oral Allergy Syndrome,🍊
+Pomegranate,Oral Allergy Syndrome,🍊
+Lychee,Oral Allergy Syndrome,🍊
+Guava,Oral Allergy Syndrome,🍊
+Coconut,Oral Allergy Syndrome,🥥
+Date,Oral Allergy Syndrome,🍊
+Fig,Oral Allergy Syndrome,🍊
+Olive,Oral Allergy Syndrome,🍊
